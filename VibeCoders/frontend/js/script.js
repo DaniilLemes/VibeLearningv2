@@ -192,9 +192,14 @@ function setLessonCompleted(lessonItem, completed) {
   icon.alt = completed ? "Completed section" : "Incomplete section";
 }
 
+let furthestScrollY = 0;
+
 function updateLessonsProgress() {
   const totalTrackable = Math.min(lessonItems.length, sectionHeadings.length);
   let completedCount = 0;
+
+  // запоминаем максимальную прокрутку, чтобы прогресс не откатывался при скролле вверх
+  furthestScrollY = Math.max(furthestScrollY, window.scrollY);
 
   for (let index = 0; index < totalTrackable; index++) {
     const heading = sectionHeadings[index];
@@ -202,8 +207,7 @@ function updateLessonsProgress() {
 
     if (!heading || !lessonItem) continue;
 
-    const headingTop = heading.getBoundingClientRect().top;
-    const isCompleted = headingTop < 0;
+    const isCompleted = furthestScrollY >= heading.offsetTop;
 
     setLessonCompleted(lessonItem, isCompleted);
 
@@ -217,5 +221,6 @@ function updateLessonsProgress() {
 
 if (sectionHeadings.length && lessonItems.length) {
   window.addEventListener("scroll", updateLessonsProgress, { passive: true });
+  window.addEventListener("resize", updateLessonsProgress, { passive: true });
   updateLessonsProgress();
 }
