@@ -75,8 +75,6 @@ function handleAdaptationAction(action, state) {
 
   // На всякий случай сначала прячем фокус-модалку,
   // а потом включаем, если нужно
-  hideFocusModal();
-
   switch (action) {
     case "no_change":
     case "continue":
