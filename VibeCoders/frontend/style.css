@@ -7183,6 +7183,101 @@ video {
   padding: 2.25rem 1.5rem;
 }
 
+.calm-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+  z-index: 999;
+}
+
+.calm-modal.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.calm-modal__backdrop {
+  position: absolute;
+  inset: 0;
+}
+
+.calm-modal__dialog {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+}
+
+.calm-modal__content {
+  position: relative;
+  z-index: 1;
+}
+
+.calm-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.calm-modal__eyebrow {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.02em;
+}
+
+.calm-modal__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: #0f172a;
+}
+
+.calm-modal__text {
+  margin: 0 0 1.25rem;
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.calm-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.calm-modal__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.calm-modal__dismiss {
+  padding: 0.55rem 1rem;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 @media (max-width: 1200px) {
   .lecture-layout {
     grid-template-columns: 1fr;

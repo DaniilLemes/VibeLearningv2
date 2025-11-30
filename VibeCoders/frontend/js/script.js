@@ -1,6 +1,14 @@
 import { EEGService } from "./eegService.js";
 
-// ==== Заглушки, сюда потом прикрутишь реальный UI ====
+// ==== UI вспомогательные функции ====
+const calmModal = document.getElementById("calm-modal");
+const calmModalActionButton = calmModal?.querySelector(".calm-modal__action");
+const calmModalDismissButton = calmModal?.querySelector(
+  ".calm-modal__dismiss"
+);
+const calmModalCloseButton = calmModal?.querySelector(".calm-modal__close");
+const calmModalBackdrop = calmModal?.querySelector(".calm-modal__backdrop");
+
 function setTextDifficulty(level) {
   // level: "easy" | "normal" | "hard"
   console.log("[UI] setTextDifficulty:", level);
@@ -8,14 +16,31 @@ function setTextDifficulty(level) {
 }
 
 function showFocusModal() {
-  console.log("[UI] showFocusModal");
-  // TODO: показать модалку "сделай вдох/выдох, сфокусируйся", затем спрятать
+  if (!calmModal) return;
+
+  calmModal.classList.add("is-visible");
+  calmModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
 }
 
 function hideFocusModal() {
-  console.log("[UI] hideFocusModal");
-  // TODO: спрятать модалку, если она открыта
+  if (!calmModal) return;
+
+  calmModal.classList.remove("is-visible");
+  calmModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
 }
+
+calmModalActionButton?.addEventListener("click", hideFocusModal);
+calmModalDismissButton?.addEventListener("click", hideFocusModal);
+calmModalCloseButton?.addEventListener("click", hideFocusModal);
+calmModalBackdrop?.addEventListener("click", hideFocusModal);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && calmModal?.classList.contains("is-visible")) {
+    hideFocusModal();
+  }
+});
 // =====================================================
 
 function handleAdaptationAction(action, state) {
