@@ -367,3 +367,74 @@ ws.onerror = (e) => {
 ws.onclose = () => {
   console.log("WS closed");
 };
+
+// ===== Scroll-based progress tracking for lecture sections =====
+const sectionHeadings = Array.from(
+  document.querySelectorAll(".lecture-content .heading-h2")
+);
+const lessonItems = Array.from(
+  document.querySelectorAll(".lesson-list .lesson-item")
+);
+const progressPercentLabel = document.querySelector(".progress-percent");
+const progressBar = document.querySelector(".progress-bar");
+
+const lessonIcons = {
+  completed: "https://api.iconify.design/lucide-check-circle-2.svg?color=%2316a34a",
+  pending: "https://api.iconify.design/lucide-circle.svg?color=%2364748b",
+};
+
+function updateProgressUI(completed, total) {
+  const safeTotal = total || 1; // avoid division by zero
+  const percent = Math.round((completed / safeTotal) * 100);
+
+  if (progressPercentLabel) {
+    progressPercentLabel.textContent = `${percent}%`;
+  }
+
+  if (progressBar) {
+    progressBar.style.width = `${percent}%`;
+  }
+}
+
+function setLessonCompleted(lessonItem, completed) {
+  const icon = lessonItem.querySelector(".lesson-status-icon");
+
+  if (!icon) return;
+
+  lessonItem.classList.toggle("lesson-item--completed", completed);
+  icon.src = completed ? lessonIcons.completed : lessonIcons.pending;
+  icon.alt = completed ? "Completed section" : "Incomplete section";
+}
+
+let furthestScrollY = 0;
+
+function updateLessonsProgress() {
+  const totalTrackable = Math.min(lessonItems.length, sectionHeadings.length);
+  let completedCount = 0;
+
+  // запоминаем максимальную прокрутку, чтобы прогресс не откатывался при скролле вверх
+  furthestScrollY = Math.max(furthestScrollY, window.scrollY);
+
+  for (let index = 0; index < totalTrackable; index++) {
+    const heading = sectionHeadings[index];
+    const lessonItem = lessonItems[index];
+
+    if (!heading || !lessonItem) continue;
+
+    const isCompleted = furthestScrollY >= heading.offsetTop;
+
+    setLessonCompleted(lessonItem, isCompleted);
+
+    if (isCompleted) {
+      completedCount += 1;
+    }
+  }
+
+  updateProgressUI(completedCount, totalTrackable);
+}
+
+if (sectionHeadings.length && lessonItems.length) {
+  window.addEventListener("scroll", updateLessonsProgress, { passive: true });
+  window.addEventListener("resize", updateLessonsProgress, { passive: true });
+  updateLessonsProgress();
+}
