@@ -3,8 +3,25 @@ import { EEGService } from "./eegService.js";
 // ==== Заглушки, сюда потом прикрутишь реальный UI ====
 function setTextDifficulty(level) {
   // level: "easy" | "normal" | "hard"
-  console.log("[UI] setTextDifficulty:", level);
-  // TODO: тут переключаешь версии текста / упражнений
+  let difficultyLetter;
+
+switch ((level || "").toLowerCase()) {
+  case "easy":
+    difficultyLetter = "L";
+    break;
+  case "normal":
+    difficultyLetter = "M";
+    break;
+  case "hard":
+    difficultyLetter = "H";
+    break;
+  default:
+    difficultyLetter = "M"; // fallback
+    console.warn("[UI] Unknown difficulty:", level, "→ using M");
+    break;
+}
+
+window.setProductDifficulty(difficultyLetter);
 }
 
 function showFocusModal() {
