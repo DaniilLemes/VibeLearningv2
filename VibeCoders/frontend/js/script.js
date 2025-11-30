@@ -153,3 +153,69 @@ ws.onerror = (e) => {
 ws.onclose = () => {
   console.log("WS closed");
 };
+
+// ===== Scroll-based progress tracking for lecture sections =====
+const sectionHeadings = Array.from(
+  document.querySelectorAll(".lecture-content .heading-h2")
+);
+const lessonItems = Array.from(
+  document.querySelectorAll(".lesson-list .lesson-item")
+);
+const progressPercentLabel = document.querySelector(".progress-percent");
+const progressBar = document.querySelector(".progress-bar");
+
+const lessonIcons = {
+  completed: "https://api.iconify.design/lucide-check-circle-2.svg?color=%2316a34a",
+  pending: "https://api.iconify.design/lucide-circle.svg?color=%2364748b",
+};
+
+function updateProgressUI(completed, total) {
+  const safeTotal = total || 1; // avoid division by zero
+  const percent = Math.round((completed / safeTotal) * 100);
+
+  if (progressPercentLabel) {
+    progressPercentLabel.textContent = `${percent}%`;
+  }
+
+  if (progressBar) {
+    progressBar.style.width = `${percent}%`;
+  }
+}
+
+function setLessonCompleted(lessonItem, completed) {
+  const icon = lessonItem.querySelector(".lesson-status-icon");
+
+  if (!icon) return;
+
+  lessonItem.classList.toggle("lesson-item--completed", completed);
+  icon.src = completed ? lessonIcons.completed : lessonIcons.pending;
+  icon.alt = completed ? "Completed section" : "Incomplete section";
+}
+
+function updateLessonsProgress() {
+  const totalTrackable = Math.min(lessonItems.length, sectionHeadings.length);
+  let completedCount = 0;
+
+  for (let index = 0; index < totalTrackable; index++) {
+    const heading = sectionHeadings[index];
+    const lessonItem = lessonItems[index];
+
+    if (!heading || !lessonItem) continue;
+
+    const headingTop = heading.getBoundingClientRect().top;
+    const isCompleted = headingTop < 0;
+
+    setLessonCompleted(lessonItem, isCompleted);
+
+    if (isCompleted) {
+      completedCount += 1;
+    }
+  }
+
+  updateProgressUI(completedCount, totalTrackable);
+}
+
+if (sectionHeadings.length && lessonItems.length) {
+  window.addEventListener("scroll", updateLessonsProgress, { passive: true });
+  updateLessonsProgress();
+}

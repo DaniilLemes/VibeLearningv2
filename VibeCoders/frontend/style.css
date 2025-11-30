@@ -658,6 +658,16 @@ video {
   background-color: rgb(239 246 255 / 0.5);
 }
 
+.lesson-item--completed {
+  border-color: rgb(134 239 172 / 1);
+  background-color: rgb(240 253 244 / 1);
+}
+
+.lesson-item--completed .lesson-title {
+  color: rgb(22 101 52 / 1);
+  font-weight: 600;
+}
+
 .lesson-title {
   font-size: 0.875rem;
   line-height: 1.25rem;
