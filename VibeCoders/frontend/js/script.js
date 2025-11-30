@@ -1,24 +1,27 @@
-// main.js (or wherever you bootstrap the lesson UI)
-// import { EEGService } from "./eegService.js";
+import { EEGService } from "./eegService.js";
 
-// const eegService = new EEGService({
-//   baseUrl: "http://localhost:8000",
-//   pollIntervalMs: 1000,
-//   onState: (state) => {
-//     // Here you can also live-update UI indicators:
-//     // updateStressBar(state.stress);
-//     // updateConcentrationGauge(state.concentration);
-//     // etc.
-//   },
-//   onError: (err) => {
-//     console.warn("EEG error:", err.message);
-//   },
-// });
-//
-// eegService.start();
+const eegService = new EEGService({
+  baseUrl: "http://localhost:8000",
+  pollIntervalMs: 1000, // раз в секунду, можешь сделать 200–500 мс
+  onState: (state) => {
+    // просто лог в реальном времени
+    console.log("EEG state:", state);
 
-// when closing page / lesson
-// eegService.stop();
+    // Пример: можно отдельно выводить:
+    // console.log("stress:", state.stress, "concentration:", state.concentration);
+  },
+  onError: (err) => {
+    console.warn("EEG error:", err.message);
+  },
+});
+
+eegService.start();
+
+// Если у тебя есть хук на закрытие урока / страницы:
+window.addEventListener("beforeunload", () => {
+  eegService.stop();
+});
+
 
 const ws = new WebSocket("ws://localhost:8080");
 

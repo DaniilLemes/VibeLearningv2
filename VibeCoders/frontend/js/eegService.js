@@ -1,153 +1,65 @@
-// eegService.js
-
-/**
- * Simple polling service for EEG Adaptive State API.
- *
- * Usage:
- *   const eeg = new EEGService({
- *     baseUrl: "http://localhost:8000",
- *     pollIntervalMs: 1000,
- *     onState: (state) => {
- *       console.log("EEG state:", state);
- *     },
- *   });
- *
- *   eeg.start();
- *   // later: eeg.stop();
- */
-
 export class EEGService {
   /**
    * @param {Object} options
-   * @param {string} [options.baseUrl] - Base URL of the FastAPI server
-   * @param {number} [options.pollIntervalMs] - Polling interval in ms
-   * @param {(state: any) => void} [options.onState] - Callback on new state
-   * @param {(error: any) => void} [options.onError] - Optional error callback
+   * @param {string} options.baseUrl - базовый URL до API, например "http://localhost:8000"
+   * @param {number} [options.pollIntervalMs=1000] - интервал между запросами, мс
+   * @param {(state: any) => void} [options.onState] - коллбэк с новым состоянием
+   * @param {(err: Error) => void} [options.onError] - коллбэк на ошибку
    */
-  constructor({
-    baseUrl = "http://localhost:8000",
-    pollIntervalMs = 1000,
-    onState = null,
-    onError = null,
-  } = {}) {
-    this.baseUrl = baseUrl.replace(/\/$/, "");
+  constructor({ baseUrl, pollIntervalMs = 1000, onState, onError }) {
+    this.baseUrl = baseUrl.replace(/\/+$/, ""); // срежем хвостовой /
     this.pollIntervalMs = pollIntervalMs;
     this.onState = onState;
     this.onError = onError;
 
     this._timerId = null;
-    this._isRunning = false;
-    this._abortController = null;
+    this._stopped = true;
   }
 
   start() {
-    if (this._isRunning) return;
-    this._isRunning = true;
-    this._scheduleNextPoll(0);
+    if (!this._stopped) return;
+    this._stopped = false;
+    this._scheduleNextPoll(0); // сразу первый запрос
   }
 
   stop() {
-    this._isRunning = false;
+    this._stopped = true;
     if (this._timerId !== null) {
       clearTimeout(this._timerId);
       this._timerId = null;
     }
-    if (this._abortController) {
-      this._abortController.abort();
-      this._abortController = null;
-    }
   }
 
-  _scheduleNextPoll(delayMs) {
-    if (!this._isRunning) return;
-    this._timerId = setTimeout(() => this._pollOnce(), delayMs);
+  _scheduleNextPoll(delay) {
+    if (this._stopped) return;
+    this._timerId = setTimeout(() => this._pollOnce(), delay);
   }
 
   async _pollOnce() {
-    if (!this._isRunning) return;
-
-    this._abortController = new AbortController();
-    const url = `${this.baseUrl}/api/v1/state`;
+    if (this._stopped) return;
 
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${this.baseUrl}/api/v1/state`, {
         method: "GET",
-        signal: this._abortController.signal,
+        cache: "no-cache",
       });
 
-      if (!res.ok) {
-        // e.g. 503 when EEG not ready
-        const errorPayload = await res.json().catch(() => ({}));
-        const error = new Error(
-          `EEG API error ${res.status}: ${errorPayload.detail || res.statusText}`
-        );
-        if (this.onError) this.onError(error);
-        // Back off slightly on errors
-        this._scheduleNextPoll(this.pollIntervalMs);
-        return;
+      if (res.status === 503) {
+        // EEG ещё не готов — не считаем это фатальной ошибкой
+        const err = new Error("EEG not ready (503)");
+        if (this.onError) this.onError(err);
+      } else if (!res.ok) {
+        const err = new Error(`EEG API error: ${res.status} ${res.statusText}`);
+        if (this.onError) this.onError(err);
+      } else {
+        const state = await res.json();
+        if (this.onState) this.onState(state);
       }
-
-      const state = await res.json();
-
-      // Optional external callback
-      if (this.onState) {
-        this.onState(state);
-      }
-
-      // Internal router: different actions -> different behaviour
-      this._handleAction(state.action, state);
-    } catch (err) {
-      if (err.name === "AbortError") {
-        // stopped manually
-      } else if (this.onError) {
-        this.onError(err);
-      }
+    } catch (e) {
+      if (this.onError) this.onError(e);
     } finally {
-      this._abortController = null;
+      // планируем следующий запрос
       this._scheduleNextPoll(this.pollIntervalMs);
-    }
-  }
-
-  /**
-   * Central place where the EEG "action" is parsed.
-   * Fill the switch cases with your behaviour.
-   *
-   * @param {string} action
-   * @param {any} state - full EEG state
-   */
-  _handleAction(action, state) {
-    switch (action) {
-      case "waiting_for_data":
-        // TODO: show loading spinner / keep UI idle
-        break;
-
-      case "increase_difficulty":
-        // TODO: e.g. load harder exercise / next level
-        break;
-
-      case "decrease_difficulty":
-        // TODO: e.g. simplify content / give hints
-        break;
-
-      case "give_break":
-        // TODO: show break screen / pause lesson
-        break;
-
-      case "repeat_section":
-        // TODO: re-show current/previous section
-        break;
-
-      case "boost_engagement":
-        // TODO: add gamification, mini-task, animation, etc.
-        break;
-
-      // Add your custom actions here:
-      // case "your_custom_action":
-      //   break;
-
-      default:
-        // Unknown / no-op
-        break;
     }
   }
 }

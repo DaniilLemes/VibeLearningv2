@@ -5,6 +5,7 @@ from typing import Dict, Any
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import the core function
 import eeg_processor
@@ -38,6 +39,21 @@ app = FastAPI(
     title="EEG Adaptive State API",
     description="Provides real-time cognitive state and adaptation decisions.",
     version="1.0.0",
+)
+
+origins = [
+    "http://localhost:7000",
+    "http://127.0.0.1:7000",
+    # можно добавить ещё, если нужно
+    # "http://localhost:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # или ["*"] для совсем девелоперского режима
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
