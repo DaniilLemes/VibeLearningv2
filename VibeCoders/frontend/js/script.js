@@ -1,0 +1,49 @@
+// main.js (or wherever you bootstrap the lesson UI)
+// import { EEGService } from "./eegService.js";
+
+// const eegService = new EEGService({
+//   baseUrl: "http://localhost:8000",
+//   pollIntervalMs: 1000,
+//   onState: (state) => {
+//     // Here you can also live-update UI indicators:
+//     // updateStressBar(state.stress);
+//     // updateConcentrationGauge(state.concentration);
+//     // etc.
+//   },
+//   onError: (err) => {
+//     console.warn("EEG error:", err.message);
+//   },
+// });
+//
+// eegService.start();
+
+// when closing page / lesson
+// eegService.stop();
+
+const ws = new WebSocket("ws://localhost:8080");
+
+ws.onopen = () => {
+  console.log("Connected to relay");
+};
+
+ws.onmessage = (event) => {
+  const point = JSON.parse(event.data);
+
+  // Если GazeX/GazeY уже в пикселях — это и есть координаты
+  // Если 0..1 — это нормализованные, можно просто смотреть на них как на долю экрана
+  console.log("Gaze coords:", {
+    x: point.x,
+    y: point.y,
+  });
+};
+
+ws.onerror = (e) => {
+  console.error("WS error:", e);
+};
+
+ws.onclose = () => {
+  console.log("WS closed");
+};
+
+
+

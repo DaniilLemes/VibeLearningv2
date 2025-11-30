@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Courses — Course Catalog</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index,follow">
+    <meta name="generator" content="GrapesJS Studio">
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="gjs-t-body cls-sr80qs">
+    <header class="navbar" id="i2swjv">
+      <div class="navbar-container" id="ikcoqk">
+        <a href="./home.html" class="gjs-t-link navbar-brand" id="il5icw">
+          <div class="brand-icon" id="iwpnft">
+            <img src="https://api.iconify.design/lucide-book-open.svg?color=%232563eb" alt="Logo" class="brand-icon-image" id="ickgbe" />
+          </div>
+          <span class="brand-name" id="ijzow5">EduHub</span>
+        </a>
+        <nav class="navbar-links" id="indyck">
+          <a href="./home.html" class="gjs-t-link navbar-link" id="i4mml4">Home</a>
+          <a href="./courses.html" class="gjs-t-link navbar-link-active" id="i4i1k3">Courses</a>
+          <a href="./course.html" class="gjs-t-link navbar-link" id="i4uqsm">Course Page</a>
+          <a href="./profile.html" class="gjs-t-link navbar-link" id="iiuot1">Profile</a>
+        </nav>
+        <div class="navbar-actions" id="iqpqbm">
+          <div class="navbar-search" id="iduwqh">
+            <input type="search" id="nav-search" placeholder="Search courses..." aria-label="Search" class="search-input" />
+            <img src="https://api.iconify.design/lucide-search.svg?color=%2364748b" alt="" class="search-icon" id="ia7evt" />
+          </div>
+          <a href="./profile.html" class="gjs-t-button navbar-button" id="i4odhj">Sign in</a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content" id="iyasaf">
+      <section class="hero-section" id="iv35v6">
+        <div class="hero-container" id="i99ezn">
+          <div id="i07z3w" class="hero-text">
+            <h1 id="iqm7ej" class="gjs-t-h1 hero-title">Search for courses</h1>
+            <p id="i4mont" class="hero-subtitle"></p>
+            <div id="ix5qdg7" class="hero-search-wrap">
+              <div id="ilgiyvl" class="navbar-search">
+                <input type="search" id="hero-search" placeholder="For example: React, Data Science..." aria-label="Search by course name" class="search-input" />
+                <img src="https://api.iconify.design/lucide-search.svg?color=%2364748b" alt="" class="search-icon" id="izwnna" />
+              </div>
+            </div>
+            <div id="iegoqe" class="hero-stats">
+              <span id="ib4atm" class="hero-stat-item">
+                <img src="https://api.iconify.design/lucide-star.svg?color=%23f59e0b" alt="Rating" id="irbt5j" class="icon-star" />
+                Average course rating 4.6
+              </span>
+              <span id="ijwcp2" class="hero-stat-item">
+                <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="Time" id="i01dm3" class="icon-clock" />
+                Completion time 6–12 hrs
+              </span>
+            </div>
+          </div>
+          <div id="icuipl" class="hero-media">
+            <img src="https://app.grapesjs.com/api/assets/random-image?query=%D0%BA%D1%83%D1%80%D1%81%D1%8B&amp;w=800&amp;h=400" alt="Courses" class="hero-image" id="iohull" />
+          </div>
+        </div>
+      </section>
+      <section class="filters-section" id="i5j7wl">
+        <div class="filters-container" id="ira60u">
+          <div id="i77u4r" class="filters-header">
+            <h2 class="gjs-t-h2 filters-title" id="igbcwf">Filters and sorting</h2>
+            <div class="filters-actions" id="ihyozj">
+              <button type="button" id="filters-reset" class="button-reset">
+                Reset
+              </button>
+              <button type="button" id="filters-apply" class="gjs-t-button button-apply">
+                <img src="https://api.iconify.design/lucide-filter.svg?color=%23ffffff" alt="" class="icon-filter" id="iy4w8j" />
+                Apply
+              </button>
+            </div>
+          </div>
+          <form method="get" id="filters-form" class="filters-form">
+            <div class="filter-group" id="im26ab">
+              <div class="filter-group-header" id="iifncl">
+                <img src="https://api.iconify.design/lucide-layers.svg?color=%230f172a" alt="" class="icon-layers" id="iezs76" />
+                <span class="filter-group-title" id="idjk4i">Categories</span>
+              </div>
+              <div class="filter-options" id="it7m19">
+                <label class="filter-option" id="if2xoe">
+                  <input type="checkbox" name="category" value="programming" aria-label="Programming" class="peer filter-checkbox" id="ijukr6" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 peer-checked:bg-blue-600 checkbox-style" id="ip6bxk"></span>
+                  <span class="peer-checked:text-blue-700 checkbox-label" id="ie4qis">Programming</span>
+                </label>
+                <label class="filter-option" id="itt2p2">
+                  <input type="checkbox" name="category" value="design" aria-label="Design" class="peer filter-checkbox" id="i2ezdg" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 peer-checked:bg-blue-600 checkbox-style" id="inv6jo"></span>
+                  <span class="peer-checked:text-blue-700 checkbox-label" id="ie8fqa">Design</span>
+                </label>
+                <label class="filter-option" id="ibegdi">
+                  <input type="checkbox" name="category" value="marketing" aria-label="Marketing" class="peer filter-checkbox" id="izbmu4" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 peer-checked:bg-blue-600 checkbox-style" id="i9nqkv"></span>
+                  <span class="peer-checked:text-blue-700 checkbox-label" id="idlg2h">Marketing</span>
+                </label>
+                <label class="filter-option" id="i4vdpk">
+                  <input type="checkbox" name="category" value="data" aria-label="Data" class="peer filter-checkbox" id="i0rsvr" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 peer-checked:bg-blue-600 checkbox-style" id="i9iofd"></span>
+                  <span class="peer-checked:text-blue-700 checkbox-label" id="i1f7su">Data</span>
+                </label>
+              </div>
+            </div>
+            <div class="filter-group" id="ic9o1w">
+              <div class="filter-group-header" id="ihi41c">
+                <img src="https://api.iconify.design/lucide-signal-high.svg?color=%230f172a" alt="" class="icon-level" id="i0tenl" />
+                <span class="filter-group-title" id="i0yeld">Level</span>
+              </div>
+              <div class="filter-options" id="iwgd7y">
+                <label class="filter-option" id="iorv8u">
+                  <input type="radio" name="level" value="all" aria-label="Any" checked class="peer filter-radio" id="ixw5hb" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 radio-style" id="ily157">
+                    <span class="peer-checked:bg-blue-600 radio-dot" id="iqr7gj"></span>
+                  </span>
+                  <span class="peer-checked:text-blue-700 radio-label" id="iw3yvt">Any</span>
+                </label>
+                <label class="filter-option" id="ibk695">
+                  <input type="radio" name="level" value="beginner" aria-label="Beginner" class="peer filter-radio" id="iu7euv" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 radio-style" id="i5eycm">
+                    <span class="peer-checked:bg-blue-600 radio-dot" id="iqqtwo"></span>
+                  </span>
+                  <span class="peer-checked:text-blue-700 radio-label" id="iitxy1">Beginner</span>
+                </label>
+                <label class="filter-option" id="ibi4x1">
+                  <input type="radio" name="level" value="intermediate" aria-label="Intermediate" class="peer filter-radio" id="ib30z6" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 radio-style" id="i76q99">
+                    <span class="peer-checked:bg-blue-600 radio-dot" id="ibv29w"></span>
+                  </span>
+                  <span class="peer-checked:text-blue-700 radio-label" id="iimjhw">Intermediate</span>
+                </label>
+                <label class="filter-option" id="iij7lf">
+                  <input type="radio" name="level" value="advanced" aria-label="Advanced" class="peer filter-radio" id="izxaii" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 radio-style" id="id8sqb">
+                    <span class="peer-checked:bg-blue-600 radio-dot" id="if0ccw"></span>
+                  </span>
+                  <span class="peer-checked:text-blue-700 radio-label" id="ivhdckg">Advanced</span>
+                </label>
+              </div>
+            </div>
+            <div class="filter-group" id="iognjtd">
+              <div class="filter-group-header" id="inkv7is">
+                <img src="https://api.iconify.design/lucide-list-checks.svg?color=%230f172a" alt="" class="icon-practice" id="ijs8u3k" />
+                <span class="filter-group-title" id="ig8f4pi">Practical assignments</span>
+              </div>
+              <div class="filter-options" id="icmwgbu">
+                <label class="filter-option" id="it4bf0q">
+                  <input type="checkbox" name="practical" value="yes" aria-label="Includes practice" class="peer filter-checkbox" id="io9l0ho" />
+                  <span aria-hidden="true" class="peer-checked:border-blue-600 peer-checked:bg-blue-600 checkbox-style" id="i90j1fm"></span>
+                  <span class="peer-checked:text-blue-700 checkbox-label" id="ip6st9i">Practice only</span>
+                </label>
+              </div>
+              <div class="filter-note" id="i7ih84r">
+                <span class="note-text" id="ihfqsl1">Filters courses that include assignments and projects.</span>
+              </div>
+            </div>
+            <div class="filter-group" id="isfm0j6">
+              <div class="filter-group-header" id="igca8f3">
+                <img src="https://api.iconify.design/lucide-sort-desc.svg?color=%230f172a" alt="" class="icon-sort" id="iaqbasi" />
+                <span class="filter-group-title" id="ih03634">Sorting</span>
+              </div>
+              <div class="sort-options" id="ifzfdyv">
+                <label class="sort-label" id="itgz5oe">Sort field</label>
+                <select type="text" id="sort-field" aria-label="Sort field" class="sort-select">
+                  <option value="recommended" id="i73hx6l">Recommended</option>
+                  <option value="rating" id="ipbmuji">Rating (desc)</option>
+                  <option value="time" id="i91y2ih">Completion time (asc)</option>
+                </select>
+                <label class="filter-label" id="iuvdxzl">Minimum rating</label>
+                <input type="range" id="min-rating" min="0" max="5" step="0.5" value="0" aria-label="Minimum rating" class="filter-range" />
+                <div class="range-scale" id="i7foc9g">
+                  <span id="izkkgq7">0</span>
+                  <span id="iwkz14h">2.5</span>
+                  <span id="isd64zs">5</span>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="results-header" id="i6bevv7">
+            <div class="results-info" id="i05tiz5">
+              <img src="https://api.iconify.design/lucide-list-tree.svg?color=%2364748b" alt="" class="icon-results" id="i2ez8au" />
+              Courses found: <span id="courses-count" class="results-count">0</span>
+            </div>
+            <div class="active-filters-summary" id="is8oitx">
+              <img src="https://api.iconify.design/lucide-filter.svg?color=%2364748b" alt="" class="icon-active-filters" id="iw1ugpj" />
+              <span id="active-filters-text" class="active-filters-text">Filters: none</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="courses-section" id="id09v7t">
+        <div id="courses-grid" class="courses-grid">
+          <article data-category="programming" data-level="beginner" data-practical="yes" data-time="8" data-rating="4.7" class="course-card" id="ilp4ete">
+            <div class="course-media" id="ievrxia">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=javascript&amp;w=640&amp;h=240" alt="JavaScript Beginner" loading="lazy" class="course-image" id="i57ta5g" />
+            </div>
+            <div class="course-body" id="irka2l1">
+              <h3 class="course-title" id="i6y3r4a">JavaScript: Beginner Course</h3>
+              <p class="course-description" id="ilgv5fh">Learn JavaScript basics: variables, functions, working with the DOM, and first projects.</p>
+              <div class="course-meta-wrap" id="i0uj8pd">
+                <div class="course-time" id="ikc92en">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="izhdtaj" />
+                  Average time: <span class="course-time-value" id="iesuuw7">8 h</span>
+                </div>
+                <div class="course-rating" id="iey7zjs">
+                  <div class="rating-stars" id="iudgk87"></div>
+                  <span class="rating-value" id="ihyviz1">4.7</span>
+                </div>
+              </div>
+              <div class="course-badges" id="i6z6fio">
+                <span class="badge-practice" id="itguseb">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="ihfu8qo" />
+                  Practice
+                </span>
+                <span class="badge-level" id="ixxrxul">Beginner</span>
+              </div>
+              <div class="course-actions" id="ia29nbh">
+                <a href="./course.html" class="gjs-t-link button-details" id="imzu0xj">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="ij248f6">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="ibiduqo" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="marketing" data-level="intermediate" data-practical="yes" data-time="9" data-rating="4.6" class="course-card" id="iproductcard">
+            <div class="course-media" id="iproductmedia">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=product%20management&amp;w=640&amp;h=240" alt="Product Management" loading="lazy" class="course-image" id="iproductimg" />
+            </div>
+            <div class="course-body" id="iproductbody">
+              <h3 class="course-title" id="iproducttitle">Product Management: Fundamentals</h3>
+              <p class="course-description" id="iproductdesc">Product role, metrics, user research, and launching first iterations with practice.</p>
+              <div class="course-meta-wrap" id="iproductmeta">
+                <div class="course-time" id="iproducttime">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="iproducttimeicon" />
+                  Average time: <span class="course-time-value" id="iproducttimevalue">9 h</span>
+                </div>
+                <div class="course-rating" id="iproductrating">
+                  <div class="rating-stars" id="iproductstars"></div>
+                  <span class="rating-value" id="iproductratingvalue">4.6</span>
+                </div>
+              </div>
+              <div class="course-badges" id="iproductbadges">
+                <span class="badge-practice" id="iproductpractice">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="iproductpracticeicon" />
+                  Practice
+                </span>
+                <span class="badge-level" id="iproductlevel">Intermediate</span>
+              </div>
+              <div class="course-actions" id="iproductactions">
+                <a href="./course.html" class="gjs-t-link button-details" id="iproductdetails">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="iproductenroll">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="iproductenrollicon" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="design" data-level="intermediate" data-practical="yes" data-time="10" data-rating="4.5" class="course-card" id="idssxjq">
+            <div class="course-media" id="i0tyafm">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=ui%2Fux&amp;w=640&amp;h=240" alt="UI/UX Design" loading="lazy" class="course-image" id="iakwmyu" />
+            </div>
+            <div class="course-body" id="ibgecy5">
+              <h3 class="course-title" id="ixemwbi">UI/UX Design: Practical Approach</h3>
+              <p class="course-description" id="idhhz3m">Prototyping, user flows, testing, and design systems.</p>
+              <div class="course-meta-wrap" id="i8skxus">
+                <div class="course-time" id="iorm08i">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="iuwyrvb" />
+                  Average time: <span class="course-time-value" id="i4dvup8">10 h</span>
+                </div>
+                <div class="course-rating" id="iltsqj7">
+                  <div class="rating-stars" id="iyh4hvj"></div>
+                  <span class="rating-value" id="ia6pmcy">4.5</span>
+                </div>
+              </div>
+              <div class="course-badges" id="iqkm5xp">
+                <span class="badge-practice" id="i9wgrml">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="i22cay9" />
+                  Practice
+                </span>
+                <span class="badge-level" id="is1712q">Intermediate</span>
+              </div>
+              <div class="course-actions" id="ik0m1a2">
+                <a href="./course.html" class="gjs-t-link button-details" id="i1ege4r">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="ii8g89a">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="iv98o0r" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="marketing" data-level="beginner" data-practical="no" data-time="6" data-rating="4.2" class="course-card" id="i00xlhl">
+            <div class="course-media" id="i2mjglf">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=marketing&amp;w=640&amp;h=240" alt="Digital Marketing" loading="lazy" class="course-image" id="ipn3lzi" />
+            </div>
+            <div class="course-body" id="idne1xi">
+              <h3 class="course-title" id="iw9y66i">Digital Marketing: Fundamentals</h3>
+              <p class="course-description" id="idhddeh">SEO, content, social media, and analytics — a starter kit for beginners.</p>
+              <div class="course-meta-wrap" id="iutdq8i">
+                <div class="course-time" id="iwj9uxj">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="iz7q65i" />
+                  Average time: <span class="course-time-value" id="itl11ho">6 h</span>
+                </div>
+                <div class="course-rating" id="icbduiu">
+                  <div class="rating-stars" id="ixrouyv"></div>
+                  <span class="rating-value" id="iz1sk2i">4.2</span>
+                </div>
+              </div>
+              <div class="course-badges" id="i2gapdj">
+                <span class="badge-practice" id="ivrns6j">No practice</span>
+                <span class="badge-level" id="i6tg9wl">Beginner</span>
+              </div>
+              <div class="course-actions" id="i6zqt47">
+                <a href="./course.html" class="gjs-t-link button-details" id="iui2r9w">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="icqokx8">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="igcotji" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="data" data-level="intermediate" data-practical="yes" data-time="12" data-rating="4.8" class="course-card" id="ijwbdjk">
+            <div class="course-media" id="ins19ph">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=data%20science&amp;w=640&amp;h=240" alt="Data Science" loading="lazy" class="course-image" id="is4fn0r" />
+            </div>
+            <div class="course-body" id="imqry59">
+              <h3 class="course-title" id="ihsqsge">Data Science: Data Analysis</h3>
+              <p class="course-description" id="icx5znq">Python, pandas, visualization, and practical projects with real data.</p>
+              <div class="course-meta-wrap" id="i8z0hgj">
+                <div class="course-time" id="i76x0pb">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="i3jqvjl" />
+                  Average time: <span class="course-time-value" id="ix3sj9k">12 h</span>
+                </div>
+                <div class="course-rating" id="iv572ai">
+                  <div class="rating-stars" id="ikaks7o"></div>
+                  <span class="rating-value" id="isglemt">4.8</span>
+                </div>
+              </div>
+              <div class="course-badges" id="i6wu57p">
+                <span class="badge-practice" id="iytlqtg">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="if2b5yr" />
+                  Practice
+                </span>
+                <span class="badge-level" id="iml14up">Intermediate</span>
+              </div>
+              <div class="course-actions" id="iqtuj4e">
+                <a href="./course.html" class="gjs-t-link button-details" id="id9bfwf">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="i43lcae">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="i7157gb" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="programming" data-level="advanced" data-practical="yes" data-time="14" data-rating="4.6" class="course-card" id="i0dq5ro">
+            <div class="course-media" id="iszzn7k">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=react&amp;w=640&amp;h=240" alt="React Advanced" loading="lazy" class="course-image" id="i8k4jbk" />
+            </div>
+            <div class="course-body" id="ip7ybd9">
+              <h3 class="course-title" id="i379i79">React: Advanced Techniques</h3>
+              <p class="course-description" id="irxgsmr">Hooks, state, performance, architecture, and best practices.</p>
+              <div class="course-meta-wrap" id="i63hzup">
+                <div class="course-time" id="ij3tr0f">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="im7xrbj" />
+                  Average time: <span class="course-time-value" id="itz16px">14 h</span>
+                </div>
+                <div class="course-rating" id="ifr8p9a">
+                  <div class="rating-stars" id="i87701h"></div>
+                  <span class="rating-value" id="iou8wgg">4.6</span>
+                </div>
+              </div>
+              <div class="course-badges" id="i1p35mi">
+                <span class="badge-practice" id="i0i1vzg">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="iahsp5p" />
+                  Practice
+                </span>
+                <span class="badge-level" id="iqvro5x">Advanced</span>
+              </div>
+              <div class="course-actions" id="ilb1d0p">
+                <a href="./course.html" class="gjs-t-link button-details" id="i3n646h">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="iygb79p">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="i9rop9i" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="design" data-level="beginner" data-practical="yes" data-time="7" data-rating="4.1" class="course-card" id="ik3t7vn">
+            <div class="course-media" id="i4z776p">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=figma&amp;w=640&amp;h=240" alt="Figma for beginners" loading="lazy" class="course-image" id="i36s9gi" />
+            </div>
+            <div class="course-body" id="i44xq3k">
+              <h3 class="course-title" id="ijonmjd">Figma: Quick Start</h3>
+              <p class="course-description" id="i3vr432">Interface, components, auto layout, collaboration, and mini-projects.</p>
+              <div class="course-meta-wrap" id="i351qt2">
+                <div class="course-time" id="io7r866">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="idc87h3" />
+                  Average time: <span class="course-time-value" id="iv6axhj">7 h</span>
+                </div>
+                <div class="course-rating" id="iw8fzli">
+                  <div class="rating-stars" id="i5dnmeh"></div>
+                  <span class="rating-value" id="ir3clxj">4.1</span>
+                </div>
+              </div>
+              <div class="course-badges" id="iixf904">
+                <span class="badge-practice" id="ieue42b">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="i3coe6k" />
+                  Practice
+                </span>
+                <span class="badge-level" id="ibk4ghl">Beginner</span>
+              </div>
+              <div class="course-actions" id="i21tmfv">
+                <a href="./course.html" class="gjs-t-link button-details" id="i96zvgi">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="ijh4xui">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="iwx7cod" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+          <article data-category="marketing" data-level="advanced" data-practical="yes" data-time="9" data-rating="4.4" class="course-card" id="imzbbyi">
+            <div class="course-media" id="id0ow93">
+              <img src="https://app.grapesjs.com/api/assets/random-image?query=analytics&amp;w=640&amp;h=240" alt="Marketing Analytics" loading="lazy" class="course-image" id="ixna6oi" />
+            </div>
+            <div class="course-body" id="i6a9lkh">
+              <h3 class="course-title" id="i9g6am8">Marketing Analytics</h3>
+              <p class="course-description" id="ik4oqln">Cohort analysis, funnels, attribution, and results visualization.</p>
+              <div class="course-meta-wrap" id="iawatvl">
+                <div class="course-time" id="ixd0jyb">
+                  <img src="https://api.iconify.design/lucide-clock.svg?color=%2364748b" alt="" class="icon-clock" id="i5hggfl" />
+                  Average time: <span class="course-time-value" id="imis00s">9 h</span>
+                </div>
+                <div class="course-rating" id="invu91r">
+                  <div class="rating-stars" id="i3qczgy"></div>
+                  <span class="rating-value" id="ipotnnz">4.4</span>
+                </div>
+              </div>
+              <div class="course-badges" id="i9q6fae">
+                <span class="badge-practice" id="indevqq">
+                  <img src="https://api.iconify.design/lucide-list-checks.svg?color=%2316a34a" alt="" class="icon-badge-practice" id="idkir1k" />
+                  Practice
+                </span>
+                <span class="badge-level" id="io7x61q">Advanced</span>
+              </div>
+              <div class="course-actions" id="ixx91o8">
+                <a href="./course.html" class="gjs-t-link button-details" id="izu0miu">Learn more</a>
+                <a href="./profile.html" class="gjs-t-button button-enroll" id="iysaw64">
+                  <img src="https://api.iconify.design/lucide-user-plus.svg?color=%23ffffff" alt="" class="icon-enroll" id="isz71jc" />
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="pagination-section" id="ipvp3ic">
+          <div class="pagination-container" id="i15upqm">
+            <span class="pagination-info" id="i5qv0aw">Showing the best courses for your query</span>
+            <div class="pagination-controls" id="i8nzkrb">
+              <button type="button" class="button-prev" id="i5um7nq">Back</button>
+              <button type="button" class="button-next" id="iar66sw">Forward</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer" id="idtmbvv">
+      <div class="footer-container" id="iijyh4j">
+        <div class="footer-brand" id="i7wui5h">
+          <div class="footer-brand-row" id="irak22p">
+            <div class="footer-brand-icon" id="iccucje">
+              <img src="https://api.iconify.design/lucide-book-open.svg?color=%232563eb" alt="Logo" class="footer-brand-icon-image" id="i34ewen" />
+            </div>
+            <span class="footer-brand-name" id="irkyrbh">EduHub</span>
+          </div>
+          <p class="footer-description" id="im0uqii">Modern courses with a focus on practice and results.</p>
+        </div>
+        <div class="footer-links" id="iw0oh3h">
+          <span class="footer-links-title" id="i799kpl">Navigation</span>
+          <a href="./home.html" class="gjs-t-link footer-link" id="i2j8s19">Home</a>
+          <a href="./courses.html" class="gjs-t-link footer-link" id="i8vx4qr">Courses</a>
+          <a href="./course.html" class="gjs-t-link footer-link" id="istls6f">Learning portal</a>
+          <a href="./profile.html" class="gjs-t-link footer-link" id="im1w5fu">Profile</a>
+        </div>
+        <div class="footer-help" id="iwp69h9">
+          <span class="footer-help-title" id="it47fq2">Help</span>
+          <a href="#" class="gjs-t-link footer-help-link" id="ixrebhw">FAQ</a>
+          <a href="#" class="gjs-t-link footer-help-link" id="ifmtd6e">Support</a>
+          <a href="#" class="gjs-t-link footer-help-link" id="imic3hm">Privacy policy</a>
+        </div>
+        <div class="footer-contact" id="icwdshi">
+          <span class="footer-contact-title" id="ikfgzs4">Contacts</span>
+          <span class="footer-contact-item" id="ibu4tzg">
+            <img src="https://api.iconify.design/lucide-mail.svg?color=%2364748b" alt="" class="footer-icon-mail" id="ikmyl2f" />
+            support@eduhub.example
+          </span>
+          <span class="footer-contact-item" id="ivklfta">
+            <img src="https://api.iconify.design/lucide-phone.svg?color=%2364748b" alt="" class="footer-icon-phone" id="ixekut1" />
+            +7 (999) 123-45-67
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom" id="ishyf55">
+        <div class="footer-bottom-container" id="iivn1xa">
+          <span class="footer-copyright" id="i9wxp5g">© 2025 EduHub</span>
+          <a href="./home.html" class="gjs-t-link footer-back-link" id="ima4jba">Return to home</a>
+        </div>
+      </div>
+    </footer>
+    <script id="imydtqr">
+      (function() {
+        const grid = document.getElementById('courses-grid');
+        const cards = Array.from(grid.querySelectorAll('[data-gjs-name="Course Card"]'));
+        const countEl = document.getElementById('courses-count');
+        const activeText = document.getElementById('active-filters-text');
+
+        const form = document.getElementById('filters-form');
+        const resetBtn = document.getElementById('filters-reset');
+        const applyBtn = document.getElementById('filters-apply');
+        const sortField = document.getElementById('sort-field');
+        const minRating = document.getElementById('min-rating');
+        const navSearch = document.getElementById('nav-search');
+        const heroSearch = document.getElementById('hero-search');
+
+        function renderStars(card) {
+          const rating = parseFloat(card.dataset.rating || '0');
+          const starsWrap = card.querySelector('[data-gjs-name="Rating Stars"]');
+          if (!starsWrap) return;
+          starsWrap.innerHTML = '';
+          for (let i = 1; i <= 5; i++) {
+            const color = i <= Math.floor(rating) ? '%23f59e0b' : '%23cbd5e1';
+            const img = document.createElement('img');
+            img.src = `https://api.iconify.design/lucide-star.svg?color=${color}`;
+            img.alt = i <= Math.floor(rating) ? 'Star' : 'Empty star';
+            img.className = 'w-4 h-4';
+            img.setAttribute('data-gjs-name', 'Rating Star');
+            starsWrap.appendChild(img);
+          }
+        }
+
+        function updateActiveText(filters) {
+          const parts = [];
+          if (filters.categories.length) parts.push(`Categories: ${filters.categories.join(', ')}`);
+          if (filters.level !== 'all') parts.push(`Level: ${translateLevel(filters.level)}`);
+          if (filters.practicalOnly) parts.push('With practice');
+          if (filters.minRating > 0) parts.push(`Rating from: ${filters.minRating.toFixed(1)}`);
+          if (filters.search) parts.push(`Search: "${filters.search}"`);
+          activeText.textContent = parts.length ? `Filters: ${parts.join(' • ')}` : 'Filters: none';
+        }
+
+        function translateLevel(level) {
+          switch (level) {
+            case 'beginner':
+              return 'Beginner';
+            case 'intermediate':
+              return 'Intermediate';
+            case 'advanced':
+              return 'Advanced';
+            default:
+              return 'Any';
+          }
+        }
+
+        function getFilters() {
+          const categories = Array.from(form.querySelectorAll('input[name="category"]:checked')).map(i => i.value);
+          const levelInput = form.querySelector('input[name="level"]:checked');
+          const level = levelInput ? levelInput.value : 'all';
+          const practicalOnly = !!form.querySelector('input[name="practical"]:checked');
+          const minR = parseFloat(minRating.value || '0');
+          const searchRaw = (navSearch?.value || '').trim();
+          const search = searchRaw.toLowerCase();
+          return {
+            categories,
+            level,
+            practicalOnly,
+            minRating: minR,
+            search
+          };
+        }
+
+        function applyFilters() {
+          const filters = getFilters();
+          updateActiveText(filters);
+          let visible = [];
+          cards.forEach(card => {
+            const cat = card.dataset.category;
+            const lvl = card.dataset.level;
+            const prac = card.dataset.practical === 'yes';
+            const rating = parseFloat(card.dataset.rating || '0');
+            const title = (card.querySelector('[data-gjs-name="Course Title"]')?.textContent || '').toLowerCase();
+            const desc = (card.querySelector('[data-gjs-name="Course Description"]')?.textContent || '').toLowerCase();
+
+            const matchesCategory = filters.categories.length ? filters.categories.includes(cat) : true;
+            const matchesLevel = filters.level === 'all' ? true : filters.level === lvl;
+            const matchesPractical = filters.practicalOnly ? prac : true;
+            const matchesRating = rating >= filters.minRating;
+            const matchesSearch = filters.search ? (title.includes(filters.search) || desc.includes(filters.search)) : true;
+
+            const show = matchesCategory && matchesLevel && matchesPractical && matchesRating && matchesSearch;
+            card.style.display = show ? '' : 'none';
+            if (show) visible.push(card);
+          });
+
+          sortCards(visible, sortField.value);
+          visible.forEach(c => grid.appendChild(c));
+          countEl.textContent = String(visible.length);
+        }
+
+        function sortCards(list, field) {
+          if (field === 'recommended') return;
+          list.sort((a, b) => {
+            const ra = parseFloat(a.dataset.rating || '0');
+            const rb = parseFloat(b.dataset.rating || '0');
+            const ta = parseFloat(a.dataset.time || '0');
+            const tb = parseFloat(b.dataset.time || '0');
+            if (field === 'rating') return rb - ra; // desc
+            if (field === 'time') return ta - tb; // asc
+            return 0;
+          });
+        }
+
+        // Init stars
+        cards.forEach(renderStars);
+        // Sync hero and navbar searches if both exist
+        function syncSearchInputs(fromEl, toEl) {
+          if (!fromEl || !toEl) return;
+          toEl.value = fromEl.value;
+        }
+        if (heroSearch && navSearch) {
+          // Initialize hero search with current navbar value
+          heroSearch.value = navSearch.value || '';
+        }
+
+        // Initial count
+        applyFilters();
+
+        // Events
+        applyBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          applyFilters();
+        });
+        form.addEventListener('change', function() {
+          applyFilters();
+        });
+        sortField.addEventListener('change', function() {
+          applyFilters();
+        });
+        minRating.addEventListener('input', function() {
+          applyFilters();
+        });
+        resetBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          form.reset();
+          minRating.value = 0;
+          if (navSearch) navSearch.value = '';
+          if (heroSearch) heroSearch.value = '';
+          applyFilters();
+        });
+        if (navSearch) {
+          navSearch.addEventListener('input', function() {
+            if (heroSearch) syncSearchInputs(navSearch, heroSearch);
+            applyFilters();
+          });
+        }
+        if (heroSearch) {
+          heroSearch.addEventListener('input', function() {
+            if (navSearch) syncSearchInputs(heroSearch, navSearch);
+            applyFilters();
+          });
+        }
+      })();
+    </script>
+  </body>
+
+</html>

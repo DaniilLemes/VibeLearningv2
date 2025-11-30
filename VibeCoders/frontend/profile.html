@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Profile | Dashboard</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="index,follow">
+    <meta name="generator" content="GrapesJS Studio">
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Rubik:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="gjs-t-body body">
+    <header class="navbar" id="izme41">
+      <div class="navbar-container" id="i5zql3">
+        <a href="./home.html" aria-label="Go to home" class="gjs-t-link brand-link" id="iqf8i1">
+          <div class="brand-icon-wrap" id="ij9uqq">
+            <img src="https://api.iconify.design/lucide-focus.svg?color=%232563eb" alt="Logo" class="brand-icon" id="ic589c" />
+          </div>
+          <span class="gjs-t-h2 brand-title" id="iuzw0l">FocusTrack</span>
+        </a>
+        <nav class="navbar-links" id="iezjpu">
+          <a href="./home.html" class="gjs-t-link nav-link" id="i5mbg2">Home</a>
+          <a href="./index.html" class="gjs-t-link nav-link" id="ixdxag">Learning portal</a>
+          <a href="./profile.html" class="gjs-t-link nav-link-active" id="ic24w3">Profile</a>
+          <button type="button" class="gjs-t-button cta-button" id="iuml4l">
+            Control panel
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main id="imhuzd" class="main-content">
+      <section id="is2hjy" class="profile-header-section">
+        <div id="ipb67yp">
+          <div class="profile-header-card" id="iowo5w">
+            <img src="https://app.grapesjs.com/api/assets/random-image?query=%22person%20portrait%22&amp;w=160&amp;h=160" alt="User avatar" class="profile-avatar" id="itexe2" />
+            <div id="iac72n">
+              <h1 class="gjs-t-h2" id="idta83">Alexey Ivanov</h1>
+              <div class="profile-meta" id="iwe6jo">Student • FocusTrack</div>
+              <div class="profile-stats" id="i393y1">
+                <div class="extra-stat" id="ih8b8w">
+                  <div class="extra-label" id="ivmyyf">Average attention span</div>
+                  <div id="avgSpanTop" aria-live="polite" class="extra-value">—</div>
+                </div>
+                <div class="extra-stat" id="idk8bz">
+                  <div class="extra-label" id="i9qund">Change (30d)</div>
+                  <div id="deltaTop" aria-live="polite" class="extra-value">—</div>
+                </div>
+                <div class="extra-stat" id="i5x55c">
+                  <div class="extra-label" id="ivrbp6">Focus today</div>
+                  <div id="focusToday" aria-live="polite" class="extra-value">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="iizxa1" class="analytics-grid">
+        <div id="isp7xn" class="gjs-t-border card-progress-chart">
+          <div id="i41c28" class="card-header">
+            <div id="ivmzji" class="card-title-wrap">
+              <img src="https://api.iconify.design/lucide-line-chart.svg?color=%230f172a" alt="Progress" id="igxegx" class="card-icon" />
+              <h2 id="irt8si" class="gjs-t-h2 card-title">Attention progress chart</h2>
+            </div>
+            <div id="ivp0pt" class="chart-controls">
+              <button type="button" id="range7" class="control-button">7d</button>
+              <button type="button" id="range30" class="control-button">30d</button>
+              <button type="button" id="range90" class="control-button">90d</button>
+            </div>
+          </div>
+          <div id="i8hmzf" class="chart-body">
+            <canvas id="progressChart" aria-label="Attention line chart" class="progress-canvas"></canvas>
+            <div id="ingpor" class="chart-legend">
+              <div id="ihv5nn" class="legend-item">
+                <span id="iz8mvt" class="legend-swatch"></span>
+                Attention (min)
+              </div>
+              <div id="i1sb9k" class="legend-item">
+                <span id="imlsy2" class="legend-swatch"></span>
+                Moving average
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="duo-grid" id="i4qf6y">
+          <div id="i08hbk" class="gjs-t-border card-average-span card-stretch">
+            <div id="iq18kh" class="card-header">
+              <div id="ihdyvn" class="card-title-wrap">
+                <img src="https://api.iconify.design/lucide-gauge.svg?color=%230f172a" alt="Icon" id="ilz7vg" class="card-icon" />
+                <h2 id="i2j17i" class="gjs-t-h2 card-title">Average attention span</h2>
+              </div>
+              <span id="ifklz8" class="card-period">Last 30 days</span>
+            </div>
+            <div id="i0q8ri" class="card-body">
+              <div id="itcloo" class="average-row">
+                <div id="avgSpanMain" class="average-value">18 min</div>
+                <span id="avgDelta" class="average-delta">+8%</span>
+              </div>
+              <div id="ix4pyg" class="average-extra-stats">
+                <div id="ir48uk" class="extra-stat">
+                  <div id="i7vq1c" class="extra-label">Maximum</div>
+                  <div id="maxSpan" class="extra-value">34 min</div>
+                </div>
+                <div id="i4zdnj" class="extra-stat">
+                  <div id="ipd0rh" class="extra-label">Minimum</div>
+                  <div id="minSpan" class="extra-value">9 min</div>
+                </div>
+              </div>
+              <div id="iidvdp" class="average-hint">Based on 42 study sessions.</div>
+            </div>
+          </div>
+          <div id="igam17" class="gjs-t-border card-current-state card-stretch">
+            <div id="iejqvz" class="card-header">
+              <div id="ios6gm" class="card-title-wrap">
+                <img src="https://api.iconify.design/lucide-activity.svg?color=%230f172a" alt="Status" id="iaju25" class="card-icon" />
+                <h2 id="igf8gl" class="gjs-t-h2 card-title">Current status</h2>
+              </div>
+              <span id="ieu3zv" class="card-period">Now</span>
+            </div>
+            <div id="ifn6du" class="state-body">
+              <div id="iy4wng" class="state-item">
+                <div id="ixfetf" class="state-label-row">
+                  <img src="https://api.iconify.design/lucide-brain.svg?color=%2364748b" alt="Focus" id="i83f8u" class="state-icon" />
+                  <span id="ivz31y" class="state-label">Focus level</span>
+                  <span id="concentrationValue" class="state-value">65%</span>
+                </div>
+                <div id="ige3yi" class="state-bar">
+                  <div id="concentrationBar" class="state-bar-fill"></div>
+                </div>
+              </div>
+              <div id="i8fspc" class="state-item">
+                <div id="iwgh0x" class="state-label-row">
+                  <img src="https://api.iconify.design/lucide-alert-triangle.svg?color=%23f59e0b" alt="Stress" id="itz5ji" class="state-icon" />
+                  <span id="i7tphx" class="state-label">Stress</span>
+                  <span id="stressValue" class="state-value">35%</span>
+                </div>
+                <div id="idxhop" class="state-bar">
+                  <div id="stressBar" class="state-bar-fill"></div>
+                </div>
+              </div>
+              <div id="in6o66" class="state-item">
+                <div id="ifzxrg" class="state-label-row">
+                  <img src="https://api.iconify.design/lucide-moon.svg?color=%2364748b" alt="Fatigue" id="imdnc2" class="state-icon" />
+                  <span id="ia4aeg" class="state-label">Fatigue</span>
+                  <span id="fatigueValue" class="state-value">25%</span>
+                </div>
+                <div id="ijxhkx" class="state-bar">
+                  <div id="fatigueBar" class="state-bar-fill"></div>
+                </div>
+              </div>
+              <div id="icudgs" class="state-hint">Metrics based on the last 3 study sessions.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="ijskqm" class="gjs-t-border activity-heatmap-section">
+        <div class="section-header" id="ij7ojm">
+          <div class="header-title-wrap" id="i4572n">
+            <img src="https://api.iconify.design/lucide-calendar-days.svg?color=%230f172a" alt="Calendar" class="header-icon" id="iips4l" />
+            <h2 class="gjs-t-h2 section-title" id="iupibt">User activity</h2>
+          </div>
+          <div class="heatmap-controls" id="i3s1n6">
+            <button type="button" id="heatmapRange30" class="control-button">30d</button>
+            <button type="button" id="heatmapRange90" class="control-button">90d</button>
+            <button type="button" id="heatmapRange365" class="control-button">365d</button>
+          </div>
+        </div>
+        <div class="section-body" id="i33adb">
+          <div id="iaa3gg" class="heatmap-grid-wrap">
+            <div class="heatmap-grid-header" id="i4rteq">
+              <ul id="i044ub" class="heatmap-week-labels">
+                <li id="iy2l4h">Mon</li>
+                <li id="ijs75l">Tue</li>
+                <li id="i1t0jt">Wed</li>
+                <li id="i1thca">Thu</li>
+                <li id="i9xo1q">Fri</li>
+                <li id="io3l6r">Sat</li>
+                <li id="ik1fze">Sun</li>
+              </ul>
+              <div id="idxzqg" class="heatmap-scroll">
+                <div id="heatmapGrid" aria-label="Activity grid (number of days)" class="heatmap-grid">
+                </div>
+              </div>
+            </div>
+            <div class="heatmap-legend" id="i0fic7">
+              Less
+              <div class="legend-shades" id="io046i">
+                <span id="izf0iy" class="legend-shade"></span>
+                <span id="ixd2jy" class="legend-shade"></span>
+                <span id="iq4icb" class="legend-shade"></span>
+                <span id="iencz4" class="legend-shade"></span>
+              </div>
+              More
+            </div>
+          </div>
+          <div class="heatmap-summary" id="ik8d22">
+            <div class="summary-card" id="iuj1fs">
+              <div class="summary-label" id="iuhb7a">Active days</div>
+              <div id="activeDays" class="summary-value">19</div>
+            </div>
+            <div class="summary-card" id="izefar">
+              <div class="summary-label" id="ifli4d">Max sessions per day</div>
+              <div id="maxSessionsDay" class="summary-value">5</div>
+            </div>
+            <div class="summary-card" id="i99qvf">
+              <div class="summary-label" id="ibxgqh">Average per day</div>
+              <div id="avgPerDay" class="summary-value">2.1</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="gjs-t-border insights-section" id="ibhsqt">
+        <div class="section-header" id="ig9l4g">
+          <div class="header-title-wrap" id="i36mmr">
+            <img src="https://api.iconify.design/lucide-lightbulb.svg?color=%230f172a" alt="Insights" class="header-icon" id="ipfndn" />
+            <h2 class="gjs-t-h2 section-title" id="ioqs53">Insights and recommendations</h2>
+          </div>
+        </div>
+        <div class="insights-grid" id="ipz1o2">
+          <article class="insight-card" id="iaklyw">
+            <div class="insight-title-row" id="iqlkdi">
+              <img src="https://api.iconify.design/lucide-sun.svg?color=%230ea5e9" alt="Morning" class="insight-icon" id="i61q83" />
+              <h3 class="insight-title" id="iyqr0g">Morning hours</h3>
+            </div>
+            <p class="insight-text" id="i9zwzc">Peak focus appears between 9:00 and 11:00. Schedule complex tasks for this window.</p>
+          </article>
+          <article class="insight-card" id="i3swkk">
+            <div class="insight-title-row" id="iou4t3">
+              <img src="https://api.iconify.design/lucide-cup-soda.svg?color=%2316a34a" alt="Breaks" class="insight-icon" id="iu5li2" />
+              <h3 class="insight-title" id="itp0if">Microbreaks</h3>
+            </div>
+            <p class="insight-text" id="i72lby">Five-minute breaks every 25 minutes reduce fatigue and sustain attention.</p>
+          </article>
+          <article class="insight-card" id="i00okj">
+            <div class="insight-title-row" id="icxykv">
+              <img src="https://api.iconify.design/lucide-notebook-pen.svg?color=%2364748b" alt="Reflection" class="insight-icon" id="itze25" />
+              <h3 class="insight-title" id="i7sm9j">Reflection</h3>
+            </div>
+            <p class="insight-text" id="i986ly">Write short session summaries: it boosts awareness and improves attention metrics.</p>
+          </article>
+        </div>
+        <div class="visuals-grid" id="ia5aog">
+          <figure class="visual-figure" id="i8px6t">
+            <img src="https://app.grapesjs.com/api/assets/random-image?query=%22study%20focus%22&amp;w=1200&amp;h=320" alt="Focus while studying" class="visual-image" id="iepppi" />
+            <figcaption class="visual-caption" id="iyujwm">Maintain balance between study and rest.</figcaption>
+          </figure>
+          <figure class="visual-figure" id="irea21">
+            <img loading="lazy" src="https://app.grapesjs.com/api/assets/random-image?query=%22productivity%22&amp;w=1200&amp;h=320" alt="Productivity" class="visual-image" id="i4dazj" />
+            <figcaption class="visual-caption" id="igyy91">Consistency is key to increasing focus.</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+    <footer class="footer" id="iuy192">
+      <div class="footer-container" id="i1wpau">
+        <div class="footer-brand" id="iwashf">
+          <div class="footer-icon-wrap" id="i6pw32">
+            <img src="https://api.iconify.design/lucide-focus.svg?color=%232563eb" alt="Logo" class="footer-icon" id="i5dtvm" />
+          </div>
+          <span class="footer-title" id="i8t4oz">FocusTrack</span>
+        </div>
+        <nav class="footer-links" id="iescgj">
+          <a href="./home.html" class="gjs-t-link footer-link" id="iud0to">Home</a>
+          <a href="./index.html" class="gjs-t-link footer-link" id="inyftr">Learning portal</a>
+          <a href="./profile.html" class="gjs-t-link footer-link" id="i07rdq">Profile</a>
+        </nav>
+        <div class="footer-copy" id="i3ppx5">© 2025 FocusTrack. All rights reserved.</div>
+      </div>
+    </footer>
+    <script id="ie7exe">
+      // Utility: random data generators
+      function generateSeries(len, base = 18, volatility = 6) {
+        const arr = [];
+        let v = base;
+        for (let i = 0; i < len; i++) {
+          v += (Math.random() - 0.5) * volatility;
+          v = Math.max(5, Math.min(45, v));
+          arr.push(Math.round(v * 10) / 10);
+        }
+        return arr;
+      }
+
+      function movingAverage(series, window = 5) {
+        const out = [];
+        for (let i = 0; i < series.length; i++) {
+          const start = Math.max(0, i - window + 1);
+          const slice = series.slice(start, i + 1);
+          const avg = slice.reduce((a, b) => a + b, 0) / slice.length;
+          out.push(Math.round(avg * 10) / 10);
+        }
+        return out;
+      }
+
+      // Populate average span numbers
+      (function initAverages() {
+        const recent = generateSeries(30, 18, 5);
+        const avg = Math.round(recent.reduce((a, b) => a + b, 0) / recent.length);
+        const min = Math.min(...recent);
+        const max = Math.max(...recent);
+        const firstHalf = recent.slice(0, 15);
+        const secondHalf = recent.slice(15);
+        const delta = Math.round(((secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length) - (firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length)) / (firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length) * 100);
+
+        document.getElementById('avgSpanTop').textContent = avg + ' min';
+        document.getElementById('avgSpanMain').textContent = avg + ' min';
+        document.getElementById('avgDelta').textContent = (delta >= 0 ? '+' : '') + delta + '%';
+        document.getElementById('deltaTop').textContent = (delta >= 0 ? '+' : '') + delta + '%';
+        document.getElementById('minSpan').textContent = Math.round(min) + ' min';
+        document.getElementById('maxSpan').textContent = Math.round(max) + ' min';
+
+        // Today focus
+        const today = Math.round(14 + Math.random() * 10);
+        document.getElementById('focusToday').textContent = today + ' min';
+        // Current state percentages
+        const conc = Math.round(60 + Math.random() * 15);
+        const stress = Math.round(25 + Math.random() * 20);
+        const fatigue = Math.round(20 + Math.random() * 15);
+        document.getElementById('concentrationValue').textContent = conc + '%';
+        document.getElementById('stressValue').textContent = stress + '%';
+        document.getElementById('fatigueValue').textContent = fatigue + '%';
+        document.getElementById('concentrationBar').style.width = conc + '%';
+        document.getElementById('stressBar').style.width = stress + '%';
+        document.getElementById('fatigueBar').style.width = fatigue + '%';
+      })();
+
+      // Canvas chart (no external libs)
+      const canvas = document.getElementById('progressChart');
+      const ctx = canvas.getContext('2d');
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = 256 * window.devicePixelRatio;
+        canvas.style.height = '256px';
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      let range = 30;
+
+      function drawChart(days) {
+        const data = generateSeries(days, 18, 5);
+        const ma = movingAverage(data, 5);
+        const padding = 40 * window.devicePixelRatio;
+        const w = canvas.width,
+          h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        // Axes
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padding, h - padding);
+        ctx.lineTo(w - padding, h - padding);
+        ctx.moveTo(padding, padding);
+        ctx.lineTo(padding, h - padding);
+        ctx.stroke();
+
+        const maxY = Math.max(50, Math.ceil(Math.max(...data, ...ma) / 5) * 5);
+        const minY = 0;
+        const stepX = (w - padding * 2) / (data.length - 1);
+
+        function yMap(val) {
+          const frac = (val - minY) / (maxY - minY);
+          return h - padding - frac * (h - padding * 2);
+        }
+
+        // Grid lines + labels
+        ctx.fillStyle = '#64748b';
+        ctx.font = `${12*window.devicePixelRatio}px Inter, sans-serif`;
+        for (let t = 10; t <= maxY; t += 10) {
+          const y = yMap(t);
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.beginPath();
+          ctx.moveTo(padding, y);
+          ctx.lineTo(w - padding, y);
+          ctx.stroke();
+          ctx.fillText(String(t), padding - 30, y + 4);
+        }
+
+        // Data line
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 2 * window.devicePixelRatio;
+        ctx.beginPath();
+        data.forEach((v, i) => {
+          const x = padding + i * stepX;
+          const y = yMap(v);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Moving average line
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 2 * window.devicePixelRatio;
+        ctx.beginPath();
+        ma.forEach((v, i) => {
+          const x = padding + i * stepX;
+          const y = yMap(v);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Points (sparse)
+        ctx.fillStyle = '#3b82f6';
+        for (let i = 0; i < data.length; i += Math.ceil(data.length / 12)) {
+          const x = padding + i * stepX;
+          const y = yMap(data[i]);
+          ctx.beginPath();
+          ctx.arc(x, y, 3 * window.devicePixelRatio, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      drawChart(range);
+
+      document.getElementById('range7').addEventListener('click', () => {
+        range = 7;
+        drawChart(range);
+      });
+      document.getElementById('range30').addEventListener('click', () => {
+        range = 30;
+        drawChart(range);
+      });
+      document.getElementById('range90').addEventListener('click', () => {
+        range = 90;
+        drawChart(range);
+      });
+
+      // Heatmap
+      const grid = document.getElementById('heatmapGrid');
+
+      function buildHeatmap(columns = 20) {
+        grid.innerHTML = '';
+        const weeks = 7;
+        const data = Array.from({
+          length: weeks * columns
+        }, () => Math.floor(Math.random() * 6));
+        const maxVal = Math.max(...data);
+        for (let c = 0; c < columns; c++) {
+          for (let r = 0; r < weeks; r++) {
+            const idx = r + c * weeks;
+            const v = data[idx];
+            const cell = document.createElement('div');
+            cell.setAttribute('data-gjs-name', 'Heatmap Cell');
+            cell.className = 'w-3 h-3 sm:w-3 sm:h-3 rounded-sm border';
+            // color scale
+            let bg = 'bg-slate-200 border-slate-300';
+            if (v >= 1) bg = 'bg-emerald-200 border-emerald-300';
+            if (v >= 3) bg = 'bg-emerald-400 border-emerald-500';
+            if (v >= 5) bg = 'bg-emerald-600 border-emerald-700';
+            cell.className += ' ' + bg + ' hover:outline hover:outline-blue-300 transition-all';
+            cell.title = `Sessions: ${v}`;
+            grid.appendChild(cell);
+          }
+        }
+        // Summary
+        const active = data.filter(v => v > 0).length;
+        const maxDay = Math.max(...data);
+        const avg = (data.reduce((a, b) => a + b, 0) / data.length).toFixed(1);
+        document.getElementById('activeDays').textContent = active;
+        document.getElementById('maxSessionsDay').textContent = maxDay;
+        document.getElementById('avgPerDay').textContent = avg;
+      }
+      buildHeatmap(20);
+
+      document.getElementById('heatmapRange30').addEventListener('click', () => buildHeatmap(20));
+      document.getElementById('heatmapRange90').addEventListener('click', () => buildHeatmap(60));
+      document.getElementById('heatmapRange365').addEventListener('click', () => buildHeatmap(260));
+    </script>
+  </body>
+
+</html>
