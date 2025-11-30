@@ -88,65 +88,67 @@ def compute_overload(conc: float, stress: float, fatigue: float) -> float:
 ADAPTATION_MATRIX: Dict[Tuple[Level, Level, Level], str] = {
     # S = L (low stress)
 
-    # L H L — идеальный flow → не дёргаем
+    # L H L — ok
     ("L", "H", "L"): "no_change",
-    # L H M — ещё ок, можно слегка давить сложностью
+    # L H M — a bit harder
     ("L", "H", "M"): "text_harder",
-    # L H H — сфокусирован, но устал → лучше помочь собраться
+    # L H H — focus
     ("L", "H", "H"): "focus_modal",
 
-    # L M L — спокойно, средняя концентрация, свежий → норм, можно не трогать
+    # L M L — ok
     ("L", "M", "L"): "no_change",
-    # L M M/H — спокойный, но устал/проседает внимание → сначала фокус/отдых
+    # L M M/H — focus/relaxation
     ("L", "M", "M"): "focus_modal",
     ("L", "M", "H"): "focus_modal",
 
-    # L L L — скука → усложнить
+    # L L L — make it harder
     ("L", "L", "L"): "text_harder",
-    # L L M/H — скука + усталость → сделать попроще
+    # L L M/H — make it easier
     ("L", "L", "M"): "text_easier",
     ("L", "L", "H"): "text_easier",
 
     # S = M (medium stress)
 
-    # M H L — рабочее напряжение, высокий фокус → нормально, не трогаем
+    # M H L — ok
     ("M", "H", "L"): "no_change",
-    # M H M/H — уже на износе → упростить
+    # M H M/H — make it easier
     ("M", "H", "M"): "text_easier",
     ("M", "H", "H"): "text_easier",
 
-    # M M L — типичный рабочий режим → не лезем
+    # M M L — ok
     ("M", "M", "L"): "no_change",
-    # M M M/H — средний фокус + стресс + усталость → упростить
+    # M M M/H — make it easier
     ("M", "M", "M"): "text_easier",
     ("M", "M", "H"): "text_easier",
 
-    # M L L — средний стресс, низкий фокус, не устал → сначала помощь с фокусом
+    # M L L — focus
     ("M", "L", "L"): "focus_modal",
-    # M L M/H — и стресс, и усталость, и фокуса нет → попроще текст
+    # M L M/H — make it easier
     ("M", "L", "M"): "text_easier",
     ("M", "L", "H"): "text_easier",
 
     # S = H (high stress)
 
-    # H H L — высокий стресс, высокий фокус → снижаем сложность
+    # H H L — make it easier
     ("H", "H", "L"): "text_easier",
-    # H H M/H — тем более упростить
+    # H H M/H — make it easier
     ("H", "H", "M"): "text_easier",
     ("H", "H", "H"): "text_easier",
 
-    # H M L — высокий стресс, средний фокус → тоже упростить
+    # H M L — make it easier
     ("H", "M", "L"): "text_easier",
-    # H M M/H — прям явно много всего → упростить
+    # H M M/H — make it easier
     ("H", "M", "M"): "text_easier",
     ("H", "M", "H"): "text_easier",
 
-    # H L L — высокий стресс, низкий фокус → сначала техники дыхания/фокуса
+    # H L L — breath/focus
     ("H", "L", "L"): "focus_modal",
-    # H L M/H — там уже в первую очередь состояние, а не текст
+    # H L M/H — state, not the text
     ("H", "L", "M"): "focus_modal",
     ("H", "L", "H"): "focus_modal",
 }
+
+
 
 def decide_adaptation(
     stress: float,

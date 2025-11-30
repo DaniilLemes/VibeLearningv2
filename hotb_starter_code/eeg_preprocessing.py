@@ -2,13 +2,13 @@
 """
 EEG preprocessing utilities for BrainAccess realtime pipeline.
 
-Цели:
-    - слегка почистить сетевой шум (50 Гц)
-    - НЕ вырезать сильно спектр (никакого агрессивного band-pass)
-    - отбрасывать только явно шумные окна (очень большие пики)
+Goals:
+    - light noise cleaning (50 GHz)
+    - don't cut the spectrum (no aggressive band-pass)
+    - work only with noisy windows (very high peaks)
 
-Использование:
-    см. preprocess_window_for_state(...)
+Use:
+    see preprocess_window_for_state(...)
 """
 
 from __future__ import annotations
@@ -24,10 +24,10 @@ def light_notch(
     notch_freqs: Optional[Iterable[float]] = (50.0,),
 ) -> mne.io.BaseRaw:
     """
-    Очень лёгкая очистка: только notch по 50 Гц (можно несколько частот).
+    Light cleaning 50 GHz (could be a few).
 
-    Используем IIR и вызываем по одной частоте, чтобы не ловить
-    `Multiple stop-bands` с несколькими частотами.
+   Use IIR and call one at a time, so we don't get
+    `Multiple stop-bands` with a few frequencies.
     """
     if not isinstance(raw_window, mne.io.BaseRaw):
         raise TypeError("raw_window must be an instance of mne.io.BaseRaw")
@@ -66,35 +66,38 @@ def preprocess_window_for_state(
     raw_window: mne.io.BaseRaw,
     reject_noisy: bool = True,
     peak_to_peak_uV: float = 250.0,
-    # l_freq / h_freq оставлены только ради совместимости с вызовом,
-    # внутри они больше НЕ используются (никакого band-pass на коротком окне).
+    # l_freq / h_freq leave,
     l_freq: float = 1.0,
     h_freq: float = 40.0,
     notch_freqs: Optional[Iterable[float]] = (50.0,),
 ) -> Optional[mne.io.BaseRaw]:
     """
-    Полный препроцессинг окна для подачи в EEGStateModel.
+    Full preprocessing of a window before feeding it into EEGStateModel.
 
-    Шаги:
-        1) лёгкий notch 50 Гц (и др. частоты, если заданы)
-        2) (опционально) отбросить окно, если оно ОЧЕНЬ шумное
+    Steps:
 
-    Никакого агрессивного band-pass на этом этапе.
+    Apply a light 50 Hz notch filter (and other frequencies if specified).
 
-    Возвращает:
-        - очищенное окно mne.Raw, если всё ок
-        - None, если окно было отброшено как шумное
+    (Optionally) discard the window if it is VERY noisy.
+
+    No aggressive band-pass at this stage.
+
+    Returns:
+
+    The cleaned mne.Raw window if everything is OK.
+
+    None if the window was discarded as noisy.
     """
     if not isinstance(raw_window, mne.io.BaseRaw):
         raise TypeError("raw_window must be an instance of mne.io.BaseRaw")
 
-    # 1) лёгкий notch
+    # 1) light notch
     cleaned = light_notch(
         raw_window,
         notch_freqs=notch_freqs,
     )
 
-    # 2) мягкая проверка на шум
+    # 2) soft noise check
     if reject_noisy and is_noisy_window(cleaned, peak_to_peak_uV=peak_to_peak_uV):
         return None
 

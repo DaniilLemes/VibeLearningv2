@@ -61,8 +61,7 @@ class EEGStateModelConfig:
 
     # Adaptive normalization settings
     use_adaptive_norm: bool = True
-    # Насколько быстро подстраиваемся под новые значения (0.0–1.0)
-    # 0.05 = медленно, 0.2 = быстрее
+
     adaptation_rate: float = 0.05
 
 
@@ -127,7 +126,6 @@ class EEGStateModel:
 
         eps = 1e-8
 
-        # Базовые индексы
         engagement_index = beta_front / (alpha_front + theta_front + eps)  # ~ concentration
         stress_index = beta_front / (alpha_front + eps)                    # ~ stress
         fatigue_index = theta_occ / (beta_occ + eps)                       # ~ fatigue
@@ -135,7 +133,6 @@ class EEGStateModel:
         if self.config.use_adaptive_norm:
             self._update_stats(engagement_index, stress_index, fatigue_index)
 
-            # Мягкая адаптивная нормализация по z-score с клипом
             concentration = self._adaptive_norm(
                 engagement_index, self._eng_mean, self._eng_std
             )
@@ -146,7 +143,6 @@ class EEGStateModel:
                 fatigue_index, self._fatigue_mean, self._fatigue_std
             )
         else:
-            # Статический min/max (fallback)
             concentration = self._normalize_linear(
                 engagement_index,
                 self.config.engagement_min,
@@ -192,15 +188,13 @@ class EEGStateModel:
         return (x_clipped - vmin) / (vmax - vmin)
 
     def _update_stats(self, eng: float, stress: float, fatigue: float) -> None:
-        """Обновляем бегущие средние и 'std' для каждого индекса."""
-        alpha = self.config.adaptation_rate  # скорость адаптации
+        alpha = self.config.adaptation_rate
 
         if not self._stats_initialized:
             self._eng_mean = eng
             self._stress_mean = stress
             self._fatigue_mean = fatigue
 
-            # стартовый "std", чтобы не было нуля
             self._eng_std = abs(eng) * 0.1 + 1e-3
             self._stress_std = abs(stress) * 0.1 + 1e-3
             self._fatigue_std = abs(fatigue) * 0.1 + 1e-3
@@ -208,17 +202,14 @@ class EEGStateModel:
             self._stats_initialized = True
             return
 
-        # обновление mean
         self._eng_mean = (1.0 - alpha) * self._eng_mean + alpha * eng
         self._stress_mean = (1.0 - alpha) * self._stress_mean + alpha * stress
         self._fatigue_mean = (1.0 - alpha) * self._fatigue_mean + alpha * fatigue
 
-        # обновление "std" через среднее отклонение
         self._eng_std = (1.0 - alpha) * self._eng_std + alpha * abs(eng - self._eng_mean)
         self._stress_std = (1.0 - alpha) * self._stress_std + alpha * abs(stress - self._stress_mean)
         self._fatigue_std = (1.0 - alpha) * self._fatigue_std + alpha * abs(fatigue - self._fatigue_mean)
 
-        # нижняя граница на std
         self._eng_std = max(self._eng_std, 1e-3)
         self._stress_std = max(self._stress_std, 1e-3)
         self._fatigue_std = max(self._fatigue_std, 1e-3)
@@ -226,19 +217,19 @@ class EEGStateModel:
     @staticmethod
     def _adaptive_norm(x: float, mean: float, std: float) -> float:
         """
-        Мягкая адаптивная нормализация:
+        Soft adaptive normalization:
 
-        1) считаем z-score относительно персонального baseline:
+        1) count z-score acc. to personal baseline:
                z = (x - mean) / std
 
-        2) клипуем z в диапазон [-2.5, 2.5], чтобы не улетать в бесконечность
+        2) clip z in [-2.5, 2.5], so it's not too high
 
-        3) линейно маппим:
+        3) map linier:
                z = 0      -> 0.5
                z = +2.5   -> 1.0
                z = -2.5   -> 0.0
 
-        => уже при |z| ~ 1 ты получаешь заметный уход от середины.
+        => with |z| ~ 1 we are not in the middle.
         """
         if std <= 0:
             return 0.5

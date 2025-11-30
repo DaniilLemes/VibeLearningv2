@@ -22,12 +22,11 @@ const METRICS_BLOCK_BY_DIFFICULTY = {
   }
 };
 
-// хелпер: достаём элементы метрик
-function getMetricsBlockEls() {
-  const paragraphEl = document.getElementById("imtlk6"); // основной текст
-  const tipBoxEl = document.getElementById("i6px19");    // блок Tip целиком
-  const tipTextEl = document.getElementById("inl04k");   // текст tip
 
+function getMetricsBlockEls() {
+  const paragraphEl = document.getElementById("imtlk6");
+  const tipBoxEl = document.getElementById("i6px19");
+  const tipTextEl = document.getElementById("inl04k");
   if (!paragraphEl) {
     console.warn("metrics-block-difficulty: #imtlk6 not found");
   }
@@ -63,13 +62,7 @@ function renderMetricsBlockForDifficulty(level) {
   }
 }
 
-/**
- * Поставить/убрать нежно-голубую подсветку для metrics-блока.
- *
- * state: "low"   → пользователь читал с низкой концентрацией, подсветить
- *        "ok"    → прочитал нормально/высоко, убрать подсветку
- *        "clear" → alias для "ok"
- */
+
 function setMetricsAttentionState(state) {
   const { paragraphEl, tipBoxEl } = getMetricsBlockEls();
   if (!paragraphEl && !tipBoxEl) return;
@@ -90,7 +83,6 @@ function setMetricsAttentionState(state) {
   });
 }
 
-// Экспортируем в глобал, чтобы можно было дергать из EEG/гейз-логики
 window.setMetricsAttentionState = setMetricsAttentionState;
 
 // Wrap existing global setProductDifficulty so **one call** updates both blocks

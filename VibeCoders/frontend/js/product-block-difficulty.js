@@ -1,31 +1,26 @@
-// Тексты по уровням сложности
 const PRODUCT_BLOCK_BY_DIFFICULTY = {
   L: [
-    "Explain the product in simple words.",
-    "Focus on basic user needs and benefits.",
-    "Keep tasks short and easy to follow.",
-    "Use clear language and avoid jargon."
+    "Vision: Explain the product simply (what it is and why it helps).",
+    "Insight: Focus on basic user problems and the main benefits.",
+    "Prioritize: Make tasks short and easy to start.",
+    "Lead: Use simple, clear words; no technical talk."
   ],
   M: [
-    // твой оригинальный текст
-    "Define product vision and shape the strategy.",
-    "Understand user needs through interviews, surveys, and data analysis.",
-    "Prioritize tasks based on value and complexity.",
-    "Communicate with stakeholders and keep the team aligned."
+    "Vision: Define what the product is and where it's going (the strategy).",
+    "Insight: Figure out what users need through talking to them and looking at data.",
+    "Prioritize: Rank tasks by how much value they bring versus how hard they are to build.",
+    "Lead: Keep company partners updated and the team working together."
   ],
   H: [
-    "Craft a long-term product vision aligned with business objectives.",
-    "Synthesize qualitative and quantitative insights to uncover deep user problems.",
-    "Model impact vs. effort to drive portfolio-level prioritization.",
-    "Facilitate cross-functional alignment and manage strategic trade-offs."
+    "Vision: Set the long-term company direction for the product.",
+    "Insight: Find hidden user problems using all available data.",
+    "Prioritize: Choose the highest-impact projects across the entire product line.",
+    "Lead: Handle tough decisions and keep all teams aligned on the goal."
   ]
 };
 
 let currentDifficulty = "M";
 
-/**
- * Внутренняя функция: перерисовать список под нужный уровень
- */
 function renderProductBlockForDifficulty(level) {
   const ul = document.getElementById("icvhqn");
   if (!ul) {
@@ -46,7 +41,6 @@ function renderProductBlockForDifficulty(level) {
   items.forEach((text, index) => {
     const li = document.createElement("li");
     li.textContent = text;
-    // если у тебя был класс — добавь его
     li.classList.add("unordered-list-item");
     li.id = `product-block-${level}-${index}`;
     ul.appendChild(li);
@@ -54,8 +48,6 @@ function renderProductBlockForDifficulty(level) {
 }
 
 /**
- * Публичная функция:
- * вызывать её из любого места, где у тебя есть уровень сложности
  * @param {"L"|"M"|"H"} level
  */
 function setProductDifficulty(level) {
@@ -72,10 +64,8 @@ function setProductDifficulty(level) {
   renderProductBlockForDifficulty(currentDifficulty);
 }
 
-// Авто-рендер при загрузке страницы (дефолт — M)
 document.addEventListener("DOMContentLoaded", () => {
   renderProductBlockForDifficulty(currentDifficulty);
 });
 
-// Делаем функцию доступной глобально
 window.setProductDifficulty = setProductDifficulty;

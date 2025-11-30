@@ -1,13 +1,13 @@
 """
 Realtime EEG loop with BrainAccess device + adaptive state & time-locked levels.
 
-Логика:
-    - каждые STATE_STEP_SEC секунд считаем окно EEG (STATE_WINDOW_SEC)
-    - EEGStateModel даёт непрерывные stress / conc / fatigue ∈ [0,1]
-    - сглаживаем по времени
-    - для каждого параметра считаем моментальный уровень L/M/H (по порогам 0.45 / 0.55)
-    - как только уровень меняется -> фиксируем его минимум на LOCK_SEC секунд
-    - по (S, C, F) берём action из ADAPTATION_MATRIX + flow/overload
+Logic:
+    - every STATE_STEP_SEC sec count window EEG (STATE_WINDOW_SEC)
+    - EEGStateModel gives stress / conc / fatigue ∈ [0,1]
+    - normalizing
+    - for each parameter count moment L/M/H ( 0.45 / 0.55)
+    - level changes -> fix om min LOCK_SEC sec
+    - acc to (S, C, F) choose action from ADAPTATION_MATRIX + flow/overload
 """
 
 import os
@@ -55,10 +55,10 @@ cap = {
 }
 
 DEVICE_NAME = "BA HALO 081"
-SFREQ = 250             # sampling frequency
-STATE_WINDOW_SEC = 3.0  # длина окна для анализа состояния (по времени)
-STATE_STEP_SEC = 1.0    # период цикла (сек)
-LOCK_SEC = 10.0         # минимум 10 секунд удержания уровня
+SFREQ = 250
+STATE_WINDOW_SEC = 3.0
+STATE_STEP_SEC = 1.0
+LOCK_SEC = 10.0
 
 
 @dataclass
@@ -66,34 +66,33 @@ class LevelLock:
     """
     Локер для уровня L/M/H.
 
-    - instant_level вычисляем каждый шаг по threshold'ам
-    - если instant_level != current_level и прошло >= lock_sec
-        -> меняем уровень и обновляем last_change_time
-    - иначе -> держим старый current_level
+    - instant_level with threshold'ам
+    - if instant_level != current_level and finished >= lock_sec
+        -> change level and reload last_change_time
+    - otherwise -> old current_level
     """
     current_level: Level = "M"
     last_change_time: float = 0.0
     lock_sec: float = LOCK_SEC
 
     def update(self, value: float, now: float) -> Level:
-        # моментальный уровень по текущему значению
         instant_level = to_level(value, low=0.45, high=0.55)  # high=0.55 как ты хотел
 
-        # первая инициализация — сразу принимаем текущее
+        # first initiation -> receive current
         if self.last_change_time == 0.0:
             self.current_level = instant_level
             self.last_change_time = now
             return self.current_level
 
-        # если такой же уровень — просто обновляем, без изменений таймера
+        # same level -> reload without reloading the timer
         if instant_level == self.current_level:
             return self.current_level
 
-        # если другой уровень, но "замок" ещё не истёк — игнорируем
+        # if another level, but the lock is ok -> ignore
         if now - self.last_change_time < self.lock_sec:
             return self.current_level
 
-        # замок истёк -> принимаем новый уровень и обновляем таймер
+        # lock exp. -> new lock
         self.current_level = instant_level
         self.last_change_time = now
         return self.current_level
@@ -103,7 +102,7 @@ def main() -> None:
     os.makedirs("data", exist_ok=True)
 
     eeg = acquisition.EEG()
-    state_model = EEGStateModel()  # внутри — адаптивная нормализация под человека
+    state_model = EEGStateModel()  # adaptive normalization for this particular person
 
     stop_flag = False
 
@@ -123,15 +122,14 @@ def main() -> None:
         annotation = 1
         last_annot_time = time.time()
 
-        # сглаженное состояние
         smoothed_state: EEGState | None = None
 
-        # локи для уровней S / C / F
+        # locks for S / C / F
         stress_lock = LevelLock()
         conc_lock = LevelLock()
         fatigue_lock = LevelLock()
 
-        # Дадим устройству время на первые сэмплы
+        # first samples
         time.sleep(1.0)
 
         # ---- Realtime loop ----
@@ -139,7 +137,7 @@ def main() -> None:
             loop_start = time.time()
             now = loop_start
 
-            # Аннотация раз в секунду (по желанию)
+            # Annotation once a second
             if now - last_annot_time >= 1.0:
                 print(f"Sending annotation {annotation} to the device")
                 try:
@@ -149,7 +147,6 @@ def main() -> None:
                 annotation += 1
                 last_annot_time = now
 
-            # Обновляем MNE-объект из буфера brainaccess
             try:
                 eeg.get_mne()
             except IndexError:
@@ -162,8 +159,8 @@ def main() -> None:
             if mne_raw is None or mne_raw.n_times == 0:
                 print("[WARN] mne_raw is empty, waiting...")
             else:
-                tmin_all = float(mne_raw.times[0])      # обычно 0.0
-                tmax_all = float(mne_raw.times[-1])     # последний допустимый момент
+                tmin_all = float(mne_raw.times[0])      # usually 0.0
+                tmax_all = float(mne_raw.times[-1])     # last acc. moment
                 rec_sec = tmax_all - tmin_all
 
                 if rec_sec < STATE_WINDOW_SEC:
@@ -172,7 +169,7 @@ def main() -> None:
                         f"({rec_sec:.1f}s recorded, need {STATE_WINDOW_SEC:.1f}s)..."
                     )
                 else:
-                    # ---- Берём последнее окно по времени ----
+                    # ---- last window ----
                     tmax = tmax_all
                     tmin = max(tmin_all, tmax - STATE_WINDOW_SEC)
 
@@ -181,36 +178,36 @@ def main() -> None:
                         tmax=tmax,
                     )
 
-                    # ---- Препроцессинг: фильтрация + отбрасывание жёстких артефактов ----
+                    # ---- Preprocessing: filtration + cleaning of artefacts ----
                     clean_window = preprocess_window_for_state(
                         raw_window,
-                        reject_noisy=False,  # <--- ВАЖНО: временно отключаем отбрасывание
+                        reject_noisy=False,  # <--- imp: temp turn off rejection
                         peak_to_peak_uV=250.0,  # пока не важно
                         l_freq=1.0,
                         h_freq=40.0,
                         notch_freqs=(50.0,),
                     )
 
-                    # ---- Оценка состояния уже на очищенном сигнале ----
+                    # ---- State evaluation on the clean channel ----
                     raw_state = state_model.estimate_from_raw_window(clean_window)
 
-                    # ---- Сглаживаем по времени ----
+                    # ---- Smothering acc. to time ----
                     if smoothed_state is None:
                         smoothed_state = raw_state
                     else:
-                        alpha = 0.9  # сильное сглаживание
+                        alpha = 0.9  # wild smothering
                         smoothed_state = EEGState(
                             stress=smooth(smoothed_state.stress, raw_state.stress, alpha),
                             concentration=smooth(smoothed_state.concentration, raw_state.concentration, alpha),
                             fatigue=smooth(smoothed_state.fatigue, raw_state.fatigue, alpha),
                         )
 
-                    # ---- Лочим уровни на минимум 10 секунд ----
+                    # ---- Lock levels for 10 sec ----
                     stress_level = stress_lock.update(smoothed_state.stress, now)
                     conc_level = conc_lock.update(smoothed_state.concentration, now)
                     fatigue_level = fatigue_lock.update(smoothed_state.fatigue, now)
 
-                    # ---- Flow / overload + действие по матрице ----
+                    # ---- Flow / overload + matrix action ----
                     flow = compute_flow(
                         smoothed_state.concentration,
                         smoothed_state.stress,
@@ -228,7 +225,7 @@ def main() -> None:
                     overload_threshold = 0.75
                     flow_threshold = 0.65
 
-                    # защита от перегруза
+                    # overload protection
                     if overload > overload_threshold:
                         if not (
                             "pause" in action
@@ -236,7 +233,7 @@ def main() -> None:
                             or action.startswith("easier_")
                         ):
                             action = "easier_with_pause"
-                    # хороший поток — можно чуть усложнить
+
                     elif flow > flow_threshold and action.startswith("continue"):
                         action = "continue_harder"
 
@@ -249,7 +246,7 @@ def main() -> None:
                         overload=overload,
                     )
 
-                    # ---- Лог ----
+                    # ---- Log ----
                     print(
                         f"[STATE]  stress={smoothed_state.stress:.2f}  "
                         f"conc={smoothed_state.concentration:.2f}  "
@@ -264,17 +261,17 @@ def main() -> None:
                     )
                     print("-" * 60)
 
-            # Держим период цикла примерно STATE_STEP_SEC
+            # Cycle period STATE_STEP_SEC
             elapsed = time.time() - loop_start
             sleep_time = max(0.0, STATE_STEP_SEC - elapsed)
             time.sleep(sleep_time)
 
-        # ---- После выхода из цикла ----
+        # ---- After exiting the cycle ----
         print("Stopping acquisition...")
         eeg.stop_acquisition()
         mgr.disconnect()
 
-    # Полная запись (если есть что сохранять)
+    # Full save
     mne_raw = eeg.data.mne_raw
     if mne_raw is not None and mne_raw.n_times > 0:
         print(f"MNE Raw object: {mne_raw}")
@@ -287,7 +284,7 @@ def main() -> None:
 
         eeg.close()
 
-        # Визуалка — опционально
+        # Visual
         mne_raw.apply_function(lambda x: x * 10**-6)
         mne_raw.filter(1.0, 40.0).plot(scalings="auto", verbose=False)
         plt.show()

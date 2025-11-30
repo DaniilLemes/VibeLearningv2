@@ -1,7 +1,6 @@
 import { EEGService } from "./eegService.js";
 import { updateAttentionSidebar } from "./attention-sidebar.js";
 
-// ==== UI вспомогательные функции ====
 const calmModal = document.getElementById("calm-modal");
 const calmModalActionButton = calmModal?.querySelector(".calm-modal__action");
 const calmModalDismissButton = calmModal?.querySelector(
@@ -66,22 +65,19 @@ document.addEventListener("keydown", (event) => {
 // =====================================================
 
 function handleAdaptationAction(action, state) {
-  // Базовые 4 типа:
   //  - "no_change"
   //  - "text_harder"
   //  - "text_easier"
   //  - "focus_modal"
   //
-  // Плюс:
   //  - "easier_with_pause"
   //  - "continue_harder"
-  //  - "continue" (дефолт)
+  //  - "continue"
   console.log("[EEG] Adaptation action:", action, "state:", state);
 
   switch (action) {
     case "no_change":
     case "continue":
-      // ничего не делаем с текстом
       break;
 
     case "text_harder":
@@ -109,10 +105,8 @@ function handleAdaptationAction(action, state) {
 }
 console.log("[DEBUG] EEGService created, starting...");
 
-// === NEW: храним последний стейт от EEG ===
 let lastEEGState = null;
 
-// Небольший хелпер: достать проценты концентрации из стейта
 function getConcentrationPercent(state) {
   if (!state || typeof state.concentration !== "number") return null;
   let conc = state.concentration;
@@ -127,7 +121,6 @@ const eegService = new EEGService({
   baseUrl: "http://localhost:8000",
   pollIntervalMs: 1000,
   onState: (state) => {
-    // 1) Лог (можно потом убрать)
     console.log("EEG state:", {
       stress: state.stress,
       concentration: state.concentration,
@@ -137,13 +130,10 @@ const eegService = new EEGService({
       action: state.action,
     });
 
-    // NEW: кешируем последний стейт
     lastEEGState = state;
 
-    // 2) Обновляем UI концентрации (бар, проценты и т.п.)
     updateAttentionSidebar(state);
 
-    // 3) (опционально) можно ещё и здесь крутить сложность по concentration_level
     // if (state.concentration_level) {
     //   const levelMap = { L: "easy", M: "normal", H: "hard" };
     //   const uiLevel = levelMap[state.concentration_level] || "normal";
@@ -164,7 +154,6 @@ window.addEventListener("beforeunload", () => {
   eegService.stop();
 });
 
-// ================= Gaze часть =================
 const ws = new WebSocket("ws://localhost:8080");
 
 ws.onopen = () => {
@@ -180,12 +169,10 @@ function elementFromGazePoint(point) {
   let clientX;
   let clientY;
 
-  // Вариант 1: нормализованные координаты 0..1
   if (x >= 0 && x <= 1 && y >= 0 && y <= 1) {
     clientX = x * window.innerWidth;
     clientY = y * window.innerHeight;
   } else {
-    // Вариант 2: уже пиксели (например, относительные к окну)
     clientX = x;
     clientY = y;
   }
@@ -199,7 +186,6 @@ function elementFromGazePoint(point) {
     window.innerHeight
   );
 
-  // Если точка точно вне вьюпорта — заранее скажем
   if (
     clientX < 0 ||
     clientX > window.innerWidth ||
@@ -216,7 +202,6 @@ function elementFromGazePoint(point) {
 }
 
 
-// NEW: проверка, что мы сейчас смотрим на discovery-блок
 function isGazeOnDiscoveryBlock(el) {
   if (!el) return false;
   const discoveryContainer = document.getElementById("ij320g"); // <ol> из discovery-block
@@ -226,7 +211,6 @@ function isGazeOnDiscoveryBlock(el) {
   }
 
   const result = el === discoveryContainer || !!el.closest("#ij320g");
-  // можно залогать, чтобы видеть, что реально под взглядом
   console.log(
     "[DEBUG] isGazeOnDiscoveryBlock:",
     result,
@@ -238,7 +222,6 @@ function isGazeOnDiscoveryBlock(el) {
   return result;
 }
 
-// Проверка, что мы сейчас смотрим на metrics-блок (paragraph или Tip)
 function isGazeOnMetricsBlock(el) {
   if (!el) return false;
 
@@ -267,7 +250,6 @@ function isGazeOnMetricsBlock(el) {
 
 
 
-// NEW: простая логика подсветки discovery по gaze + концентрации
 function updateDiscoveryHighlightFromGaze(el) {
   if (typeof window.setDiscoveryAttentionState !== "function") {
     console.warn("[DEBUG] setDiscoveryAttentionState not defined yet");
@@ -275,7 +257,6 @@ function updateDiscoveryHighlightFromGaze(el) {
   }
 
   if (!isGazeOnDiscoveryBlock(el)) {
-    // можно раскомментировать, если хочешь видеть, когда взгляд НЕ на блоке
     // console.log("[DEBUG] Gaze not on discovery block");
     return;
   }
@@ -286,8 +267,8 @@ function updateDiscoveryHighlightFromGaze(el) {
     return;
   }
 
-  const LOW_THRESHOLD = 50;  // ниже — считаем "низкая концентрация"
-  const OK_THRESHOLD = 60;   // выше — явно норм/высокая
+  const LOW_THRESHOLD = 50;
+  const OK_THRESHOLD = 60;
 
   console.log(
     "[DEBUG] Discovery highlight check → percent:",
@@ -325,8 +306,8 @@ function updateMetricsHighlightFromGaze(el) {
     return;
   }
 
-  const LOW_THRESHOLD = 50;  // ниже — считаем "низкая концентрация"
-  const OK_THRESHOLD = 60;   // выше — явно норм/высокая
+  const LOW_THRESHOLD = 50;
+  const OK_THRESHOLD = 60;
 
   console.log(
     "[DEBUG] Metrics highlight check → percent:",
@@ -412,7 +393,6 @@ function updateLessonsProgress() {
   const totalTrackable = Math.min(lessonItems.length, sectionHeadings.length);
   let completedCount = 0;
 
-  // запоминаем максимальную прокрутку, чтобы прогресс не откатывался при скролле вверх
   furthestScrollY = Math.max(furthestScrollY, window.scrollY);
 
   for (let index = 0; index < totalTrackable; index++) {
