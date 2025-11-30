@@ -5035,6 +5035,7 @@ video {
 .heatmap-main {
   display: grid;
   gap: 0.5rem;
+  width: 100%;
   min-width: 640px;
   --heatmap-cell-width: 1rem;
   --heatmap-cell-height: 1rem;
@@ -5046,7 +5047,7 @@ video {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: var(--heatmap-month-width);
-  gap: 0.25rem;
+  gap: var(--heatmap-cell-gap);
   font-size: 0.75rem;
   line-height: 1rem;
   color: rgb(100 116 139 / 1);
@@ -5250,10 +5251,6 @@ video {
 
 #i044ub {
   grid-template-rows: repeat(7, 1fr);
-}
-
-#heatmapGrid {
-  grid-template-columns: repeat(20, 1fr);
 }
 
 .gh-table thead th {

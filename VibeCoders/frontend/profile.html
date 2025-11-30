@@ -442,6 +442,7 @@
       const monthsRow = document.getElementById('heatmapMonths');
       const heatmapButtons = Array.from(document.querySelectorAll('[data-heatmap-range]'));
       const heatmapMain = document.querySelector('.heatmap-main');
+      const heatmapScroll = document.querySelector('.heatmap-scroll');
 
       function setActiveHeatmapButton(days) {
         heatmapButtons.forEach(btn => {
@@ -451,34 +452,46 @@
         });
       }
 
-      function applyHeatmapScale(days) {
+      function applyHeatmapScale(days, weeks) {
         if (!heatmapMain) return;
 
-        let cellWidth = '1.6rem';
-        let cellHeight = '0.9rem';
-        let cellGap = '0.35rem';
-        let monthWidth = '1.5rem';
-        let minWidth = '680px';
+        const baseScale = {
+          width: 26,
+          height: 14,
+          gap: 6
+        };
 
         if (days > 30 && days <= 90) {
-          cellWidth = '1.05rem';
-          cellHeight = '0.7rem';
-          cellGap = '0.25rem';
-          monthWidth = '1.05rem';
-          minWidth = '720px';
+          baseScale.width = 16;
+          baseScale.height = 11;
+          baseScale.gap = 4;
         } else if (days > 90) {
-          cellWidth = '0.7rem';
-          cellHeight = '0.7rem';
-          cellGap = '0.18rem';
-          monthWidth = '0.85rem';
-          minWidth = '760px';
+          baseScale.width = 12;
+          baseScale.height = 12;
+          baseScale.gap = 3;
         }
 
-        heatmapMain.style.setProperty('--heatmap-cell-width', cellWidth);
-        heatmapMain.style.setProperty('--heatmap-cell-height', cellHeight);
-        heatmapMain.style.setProperty('--heatmap-cell-gap', cellGap);
-        heatmapMain.style.setProperty('--heatmap-month-width', monthWidth);
-        heatmapMain.style.minWidth = minWidth;
+        let cellWidthPx = baseScale.width;
+
+        if (heatmapScroll && days === 30) {
+          const available = heatmapScroll.clientWidth || heatmapScroll.getBoundingClientRect().width;
+          const expanded = Math.floor((available - Math.max(0, weeks - 1) * baseScale.gap) / weeks);
+          if (expanded > cellWidthPx) cellWidthPx = expanded;
+        }
+
+        heatmapMain.style.setProperty('--heatmap-cell-width', `${cellWidthPx}px`);
+        heatmapMain.style.setProperty('--heatmap-cell-height', `${baseScale.height}px`);
+        heatmapMain.style.setProperty('--heatmap-cell-gap', `${baseScale.gap}px`);
+        heatmapMain.style.setProperty('--heatmap-month-width', `${cellWidthPx}px`);
+
+        const minWidthPx = weeks * cellWidthPx + Math.max(0, weeks - 1) * baseScale.gap;
+        heatmapMain.style.minWidth = days === 30 ? '100%' : `${minWidthPx}px`;
+        grid.style.width = days === 30 ? '100%' : 'auto';
+        monthsRow.style.width = days === 30 ? '100%' : 'auto';
+        grid.style.justifyContent = days === 30 ? 'space-between' : 'start';
+        monthsRow.style.justifyContent = days === 30 ? 'space-between' : 'start';
+        grid.style.gridTemplateColumns = `repeat(${weeks}, var(--heatmap-cell-width))`;
+        monthsRow.style.gridTemplateColumns = `repeat(${weeks}, var(--heatmap-month-width))`;
       }
 
       function buildHeatmap(days = 20) {
@@ -562,7 +575,15 @@
       }
       function handleHeatmapRange(days) {
         setActiveHeatmapButton(days);
-        applyHeatmapScale(days);
+        const today = new Date();
+        const startDate = new Date();
+        startDate.setDate(today.getDate() - (days - 1));
+        const startWeekday = startDate.getDay();
+        const endWeekday = today.getDay();
+        const paddedDays = startWeekday + days + (6 - endWeekday);
+        const weeks = Math.ceil(paddedDays / 7);
+
+        applyHeatmapScale(days, weeks);
         buildHeatmap(days);
       }
 
