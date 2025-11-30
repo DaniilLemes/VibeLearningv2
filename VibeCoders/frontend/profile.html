@@ -171,37 +171,36 @@
             <h2 class="gjs-t-h2 section-title" id="iupibt">User activity</h2>
           </div>
           <div class="heatmap-controls" id="i3s1n6">
-            <button type="button" id="heatmapRange30" class="control-button">30d</button>
-            <button type="button" id="heatmapRange90" class="control-button">90d</button>
-            <button type="button" id="heatmapRange365" class="control-button">365d</button>
+            <button type="button" id="heatmapRange30" class="control-button is-active" data-heatmap-range="30">30d</button>
+            <button type="button" id="heatmapRange90" class="control-button" data-heatmap-range="90">90d</button>
+            <button type="button" id="heatmapRange365" class="control-button" data-heatmap-range="365">365d</button>
           </div>
         </div>
         <div class="section-body" id="i33adb">
           <div id="iaa3gg" class="heatmap-grid-wrap">
-            <div class="heatmap-grid-header" id="i4rteq">
-              <ul id="i044ub" class="heatmap-week-labels">
-                <li id="iy2l4h">Mon</li>
-                <li id="ijs75l">Tue</li>
-                <li id="i1t0jt">Wed</li>
-                <li id="i1thca">Thu</li>
-                <li id="i9xo1q">Fri</li>
-                <li id="io3l6r">Sat</li>
-                <li id="ik1fze">Sun</li>
-              </ul>
-              <div id="idxzqg" class="heatmap-scroll">
-                <div id="heatmapGrid" aria-label="Activity grid (number of days)" class="heatmap-grid">
-                </div>
-              </div>
+            <div class="heatmap-week-labels" aria-hidden="true" id="i044ub">
+              <span id="iy2l4h"></span>
+              <span id="ijs75l">Mon</span>
+              <span id="i1t0jt"></span>
+              <span id="i1thca">Wed</span>
+              <span id="i9xo1q"></span>
+              <span id="io3l6r">Fri</span>
+              <span id="ik1fze"></span>
             </div>
-            <div class="heatmap-legend" id="i0fic7">
-              Less
-              <div class="legend-shades" id="io046i">
-                <span id="izf0iy" class="legend-shade"></span>
-                <span id="ixd2jy" class="legend-shade"></span>
-                <span id="iq4icb" class="legend-shade"></span>
-                <span id="iencz4" class="legend-shade"></span>
+            <div class="heatmap-main heatmap-scroll" id="idxzqg">
+              <div class="heatmap-month-row" id="heatmapMonths" aria-hidden="true"></div>
+              <div id="heatmapGrid" aria-label="Activity grid (number of days)" class="heatmap-grid">
               </div>
-              More
+              <div class="heatmap-legend" id="i0fic7">
+                Less
+                <div class="legend-shades" id="io046i">
+                  <span id="izf0iy" class="legend-shade"></span>
+                  <span id="ixd2jy" class="legend-shade"></span>
+                  <span id="iq4icb" class="legend-shade"></span>
+                  <span id="iencz4" class="legend-shade"></span>
+                </div>
+                More
+              </div>
             </div>
           </div>
           <div class="heatmap-summary" id="ik8d22">
@@ -440,44 +439,106 @@
 
       // Heatmap
       const grid = document.getElementById('heatmapGrid');
+      const monthsRow = document.getElementById('heatmapMonths');
+      const heatmapButtons = Array.from(document.querySelectorAll('[data-heatmap-range]'));
 
-      function buildHeatmap(columns = 20) {
+      function setActiveHeatmapButton(days) {
+        heatmapButtons.forEach(btn => {
+          const isActive = Number(btn.dataset.heatmapRange) === days;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-pressed', isActive);
+        });
+      }
+
+      function buildHeatmap(days = 20) {
         grid.innerHTML = '';
-        const weeks = 7;
-        const data = Array.from({
-          length: weeks * columns
-        }, () => Math.floor(Math.random() * 6));
-        const maxVal = Math.max(...data);
-        for (let c = 0; c < columns; c++) {
-          for (let r = 0; r < weeks; r++) {
-            const idx = r + c * weeks;
-            const v = data[idx];
-            const cell = document.createElement('div');
-            cell.setAttribute('data-gjs-name', 'Heatmap Cell');
-            cell.className = 'w-3 h-3 sm:w-3 sm:h-3 rounded-sm border';
-            // color scale
-            let bg = 'bg-slate-200 border-slate-300';
-            if (v >= 1) bg = 'bg-emerald-200 border-emerald-300';
-            if (v >= 3) bg = 'bg-emerald-400 border-emerald-500';
-            if (v >= 5) bg = 'bg-emerald-600 border-emerald-700';
-            cell.className += ' ' + bg + ' hover:outline hover:outline-blue-300 transition-all';
-            cell.title = `Sessions: ${v}`;
-            grid.appendChild(cell);
-          }
+        monthsRow.innerHTML = '';
+        grid.setAttribute('aria-label', `Activity grid (last ${days} days)`);
+        const today = new Date();
+        const startDate = new Date();
+        startDate.setDate(today.getDate() - (days - 1));
+
+        const startWeekday = startDate.getDay();
+        const endWeekday = today.getDay();
+        const paddedDays = startWeekday + days + (6 - endWeekday);
+        const weeks = Math.ceil(paddedDays / 7);
+
+        const data = Array.from({ length: days }, (_, i) => {
+          const d = new Date(startDate);
+          d.setDate(startDate.getDate() + i);
+          return {
+            date: d,
+            value: Math.floor(Math.random() * 6)
+          };
+        });
+
+        function getShade(value) {
+          if (value >= 5) return 'heatmap-strong';
+          if (value >= 3) return 'heatmap-high';
+          if (value >= 1) return 'heatmap-mid';
+          return 'heatmap-low';
         }
-        // Summary
-        const active = data.filter(v => v > 0).length;
-        const maxDay = Math.max(...data);
-        const avg = (data.reduce((a, b) => a + b, 0) / data.length).toFixed(1);
+
+        for (let w = 0; w < weeks; w++) {
+          const label = document.createElement('span');
+          label.className = 'month-label';
+
+          const weekStart = new Date(startDate);
+          weekStart.setDate(startDate.getDate() - startWeekday + w * 7);
+          const monthChange = weekStart.getDate() <= 7;
+          label.textContent = monthChange ? weekStart.toLocaleDateString('en-US', { month: 'short' }) : '';
+
+          monthsRow.appendChild(label);
+        }
+
+        const totalSlots = weeks * 7;
+        for (let idx = 0; idx < totalSlots; idx++) {
+          const cell = document.createElement('div');
+          cell.setAttribute('data-gjs-name', 'Heatmap Cell');
+
+          if (idx < startWeekday || idx >= startWeekday + days) {
+            cell.className = 'heatmap-cell heatmap-empty';
+            cell.setAttribute('aria-hidden', 'true');
+            grid.appendChild(cell);
+            continue;
+          }
+
+          const dataIndex = idx - startWeekday;
+          const entry = data[dataIndex];
+          if (!entry) {
+            cell.className = 'heatmap-cell heatmap-empty';
+            cell.setAttribute('aria-hidden', 'true');
+            grid.appendChild(cell);
+            continue;
+          }
+
+          cell.className = `heatmap-cell ${getShade(entry.value)}`;
+          const dateLabel = entry.date.toLocaleDateString('en-GB', {
+            month: 'short',
+            day: 'numeric'
+          });
+          cell.title = `${dateLabel} • Sessions: ${entry.value}`;
+          grid.appendChild(cell);
+        }
+
+        const numericValues = data.map(d => d.value);
+        const active = numericValues.filter(v => v > 0).length;
+        const maxDay = Math.max(...numericValues);
+        const avg = (numericValues.reduce((a, b) => a + b, 0) / numericValues.length).toFixed(1);
         document.getElementById('activeDays').textContent = active;
         document.getElementById('maxSessionsDay').textContent = maxDay;
         document.getElementById('avgPerDay').textContent = avg;
       }
-      buildHeatmap(20);
+      function handleHeatmapRange(days) {
+        setActiveHeatmapButton(days);
+        buildHeatmap(days);
+      }
 
-      document.getElementById('heatmapRange30').addEventListener('click', () => buildHeatmap(20));
-      document.getElementById('heatmapRange90').addEventListener('click', () => buildHeatmap(60));
-      document.getElementById('heatmapRange365').addEventListener('click', () => buildHeatmap(260));
+      heatmapButtons.forEach(btn =>
+        btn.addEventListener('click', () => handleHeatmapRange(Number(btn.dataset.heatmapRange)))
+      );
+
+      handleHeatmapRange(30);
     </script>
   </body>
 
