@@ -5,15 +5,18 @@ export class EEGService {
    * @param {number} [options.pollIntervalMs=1000] - интервал между запросами, мс
    * @param {(state: any) => void} [options.onState] - коллбэк с новым состоянием
    * @param {(err: Error) => void} [options.onError] - коллбэк на ошибку
+   * @param {(action: string, state: any) => void} [options.onAction] - коллбэк при изменении действия
    */
-  constructor({ baseUrl, pollIntervalMs = 1000, onState, onError }) {
+  constructor({ baseUrl, pollIntervalMs = 1000, onState, onError, onAction }) {
     this.baseUrl = baseUrl.replace(/\/+$/, ""); // срежем хвостовой /
     this.pollIntervalMs = pollIntervalMs;
     this.onState = onState;
     this.onError = onError;
+    this.onAction = onAction;
 
     this._timerId = null;
     this._stopped = true;
+    this._lastAction = null; // чтобы реагировать только на изменения action
   }
 
   start() {
@@ -53,7 +56,17 @@ export class EEGService {
         if (this.onError) this.onError(err);
       } else {
         const state = await res.json();
+
+        // общий стейт (графики, индикаторы и т.д.)
         if (this.onState) this.onState(state);
+
+        // точка адаптации: действие от бэка
+        if (this.onAction && state.action) {
+          if (state.action !== this._lastAction) {
+            this.onAction(state.action, state);
+            this._lastAction = state.action;
+          }
+        }
       }
     } catch (e) {
       if (this.onError) this.onError(e);

@@ -1,14 +1,87 @@
 import { EEGService } from "./eegService.js";
 
+// ==== Заглушки, сюда потом прикрутишь реальный UI ====
+function setTextDifficulty(level) {
+  // level: "easy" | "normal" | "hard"
+  console.log("[UI] setTextDifficulty:", level);
+  // TODO: тут переключаешь версии текста / упражнений
+}
+
+function showFocusModal() {
+  console.log("[UI] showFocusModal");
+  // TODO: показать модалку "сделай вдох/выдох, сфокусируйся", затем спрятать
+}
+
+function hideFocusModal() {
+  console.log("[UI] hideFocusModal");
+  // TODO: спрятать модалку, если она открыта
+}
+// =====================================================
+
+function handleAdaptationAction(action, state) {
+  // Базовые 4 типа:
+  //  - "no_change"
+  //  - "text_harder"
+  //  - "text_easier"
+  //  - "focus_modal"
+  //
+  // Плюс из твоей логики:
+  //  - "easier_with_pause"
+  //  - "continue_harder"
+  //  - "continue" (дефолт)
+  console.log("[EEG] Adaptation action:", action, "state:", state);
+
+  // На всякий случай сначала прячем фокус-модалку,
+  // а потом включаем, если нужно
+  hideFocusModal();
+
+  switch (action) {
+    case "no_change":
+    case "continue":
+      // Ничего не трогаем, возможно просто обновляем индикаторы
+      // current difficulty stays
+      break;
+
+    case "text_harder":
+    case "continue_harder":
+      setTextDifficulty("hard");
+      break;
+
+    case "text_easier":
+      setTextDifficulty("easy");
+      break;
+
+    case "focus_modal":
+      showFocusModal();
+      break;
+
+    case "easier_with_pause":
+      setTextDifficulty("easy");
+      showFocusModal(); // можно использовать ту же модалку как "передышку"
+      break;
+
+    default:
+      console.warn("[EEG] Unknown action from backend:", action);
+      break;
+  }
+}
+
 const eegService = new EEGService({
   baseUrl: "http://localhost:8000",
-  pollIntervalMs: 1000, // раз в секунду, можешь сделать 200–500 мс
+  pollIntervalMs: 1000, // можешь потом уменьшить до 300–500 мс
   onState: (state) => {
-    // просто лог в реальном времени
-    console.log("EEG state:", state);
-
-    // Пример: можно отдельно выводить:
-    // console.log("stress:", state.stress, "concentration:", state.concentration);
+    // просто лог в реальном времени, плюс сюда можно повесить графики
+    console.log("EEG state:", {
+      stress: state.stress,
+      concentration: state.concentration,
+      fatigue: state.fatigue,
+      flow: state.flow,
+      overload: state.overload,
+      action: state.action,
+    });
+  },
+  onAction: (action, state) => {
+    handleAdaptationAction(action, state);
   },
   onError: (err) => {
     console.warn("EEG error:", err.message);
@@ -17,27 +90,20 @@ const eegService = new EEGService({
 
 eegService.start();
 
-// Если у тебя есть хук на закрытие урока / страницы:
 window.addEventListener("beforeunload", () => {
   eegService.stop();
 });
 
-
+// Gaze часть оставляем как есть
 const ws = new WebSocket("ws://localhost:8080");
 
 ws.onopen = () => {
-  console.log("Connected to relay");
+  console.log("Connected to gaze relay");
 };
 
 ws.onmessage = (event) => {
   const point = JSON.parse(event.data);
-
-  // Если GazeX/GazeY уже в пикселях — это и есть координаты
-  // Если 0..1 — это нормализованные, можно просто смотреть на них как на долю экрана
-  console.log("Gaze coords:", {
-    x: point.x,
-    y: point.y,
-  });
+  console.log("Gaze coords:", { x: point.x, y: point.y });
 };
 
 ws.onerror = (e) => {
@@ -47,6 +113,3 @@ ws.onerror = (e) => {
 ws.onclose = () => {
   console.log("WS closed");
 };
-
-
-
