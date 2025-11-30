@@ -242,7 +242,7 @@ RICE = (2000 * 2 * 0.7) / 2 = 1400</code></pre>
           <div class="iab-header" id="it4drw">
             <span class="iab-title" id="isj9km">
               <img src="https://api.iconify.design/lucide-activity.svg?color=%23334155" width="16" height="16" alt="Attention icon" id="itc9ic" />
-              Attention
+              Concentration
             </span>
             <span aria-live="polite" class="iab-value" id="ij10u6">
               <strong id="iabPercent">68%</strong>
@@ -307,59 +307,7 @@ RICE = (2000 * 2 * 0.7) / 2 = 1400</code></pre>
               </div>
             </div>
           </section>
-
-          <script id="ic06pr">
-            (function() {
-              var root = document.getElementById('iabRoot');
-              if (!root) return;
-
-              function formatSpan(seconds) {
-                seconds = Math.max(0, Math.floor(seconds || 0));
-                var m = Math.floor(seconds / 60);
-                var s = seconds % 60;
-                return (m ? m + ' min ' : '') + (s + ' s');
-              }
-
-              function clamp(v, min, max) {
-                return Math.min(max, Math.max(min, v));
-              }
-
-              function updateFromData() {
-                var attention = parseFloat(root.getAttribute('data-attention'));
-                if (isNaN(attention)) attention = 0;
-                attention = clamp(attention, 0, 100);
-
-                var span = parseFloat(root.getAttribute('data-span-seconds'));
-                if (isNaN(span)) span = 0;
-
-                var percentEl = document.getElementById('iabPercent');
-                var spanEl = document.getElementById('iabSpan');
-                var marker = document.getElementById('iabMarker');
-                var knob = document.getElementById('iabKnob');
-
-                if (percentEl) percentEl.textContent = Math.round(attention) + '%';
-                if (spanEl) spanEl.textContent = formatSpan(span);
-
-                var topPos = (100 - attention) + '%';
-                if (marker) marker.style.top = topPos;
-                if (knob) knob.style.top = topPos;
-              }
-
-              updateFromData();
-
-              window.addEventListener('attention:update', function(e) {
-                if (!e || !e.detail) return;
-                if (typeof e.detail.attention === 'number') {
-                  root.setAttribute('data-attention', String(e.detail.attention));
-                }
-                if (typeof e.detail.spanSeconds === 'number') {
-                  root.setAttribute('data-span-seconds', String(e.detail.spanSeconds));
-                }
-                updateFromData();
-              });
-            }());
-          </script>
-        </section>
+       </section>
 
       
     </main>

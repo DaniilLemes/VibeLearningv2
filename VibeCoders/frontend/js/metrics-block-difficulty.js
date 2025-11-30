@@ -1,3 +1,5 @@
+// metrics-block-difficulty.js
+
 // Texts for paragraph + tip by difficulty level
 const METRICS_BLOCK_BY_DIFFICULTY = {
   L: {
@@ -20,6 +22,25 @@ const METRICS_BLOCK_BY_DIFFICULTY = {
   }
 };
 
+// хелпер: достаём элементы метрик
+function getMetricsBlockEls() {
+  const paragraphEl = document.getElementById("imtlk6"); // основной текст
+  const tipBoxEl = document.getElementById("i6px19");    // блок Tip целиком
+  const tipTextEl = document.getElementById("inl04k");   // текст tip
+
+  if (!paragraphEl) {
+    console.warn("metrics-block-difficulty: #imtlk6 not found");
+  }
+  if (!tipBoxEl) {
+    console.warn("metrics-block-difficulty: #i6px19 not found");
+  }
+  if (!tipTextEl) {
+    console.warn("metrics-block-difficulty: #inl04k not found");
+  }
+
+  return { paragraphEl, tipBoxEl, tipTextEl };
+}
+
 /**
  * Render paragraph + tip for a given difficulty level
  * @param {"L"|"M"|"H"} level
@@ -31,28 +52,53 @@ function renderMetricsBlockForDifficulty(level) {
   const config = METRICS_BLOCK_BY_DIFFICULTY[finalLevel];
   if (!config) return;
 
-  const paragraphEl = document.getElementById("imtlk6");
-  const tipTextEl = document.getElementById("inl04k");
+  const { paragraphEl, tipTextEl } = getMetricsBlockEls();
 
   if (paragraphEl) {
     paragraphEl.textContent = config.paragraph;
-  } else {
-    console.warn("metrics-block-difficulty: #imtlk6 not found");
   }
 
   if (tipTextEl) {
     tipTextEl.textContent = config.tip;
-  } else {
-    console.warn("metrics-block-difficulty: #inl04k not found");
   }
 }
+
+/**
+ * Поставить/убрать нежно-голубую подсветку для metrics-блока.
+ *
+ * state: "low"   → пользователь читал с низкой концентрацией, подсветить
+ *        "ok"    → прочитал нормально/высоко, убрать подсветку
+ *        "clear" → alias для "ok"
+ */
+function setMetricsAttentionState(state) {
+  const { paragraphEl, tipBoxEl } = getMetricsBlockEls();
+  if (!paragraphEl && !tipBoxEl) return;
+
+  const normalized = String(state || "").toLowerCase();
+  const shouldHighlight = normalized === "low";
+
+  const els = [paragraphEl, tipBoxEl].filter(Boolean);
+
+  els.forEach((el) => {
+    if (shouldHighlight) {
+      el.classList.add("attention-low");
+      el.dataset.attention = "low";
+    } else {
+      el.classList.remove("attention-low");
+      el.dataset.attention = "ok";
+    }
+  });
+}
+
+// Экспортируем в глобал, чтобы можно было дергать из EEG/гейз-логики
+window.setMetricsAttentionState = setMetricsAttentionState;
 
 // Wrap existing global setProductDifficulty so **one call** updates both blocks
 (function () {
   const originalSetProductDifficulty = window.setProductDifficulty;
 
   function setProductDifficultyWithMetrics(level) {
-    // Call original (changes the <ul> block)
+    // Call original (changes other blocks: product, discovery, etc.)
     if (typeof originalSetProductDifficulty === "function") {
       originalSetProductDifficulty(level);
     }
@@ -67,5 +113,6 @@ function renderMetricsBlockForDifficulty(level) {
   // Initial render on page load (default M)
   document.addEventListener("DOMContentLoaded", () => {
     renderMetricsBlockForDifficulty("M");
+    // setMetricsAttentionState("ok"); // если хочешь явно сбросить подсветку
   });
 })();
